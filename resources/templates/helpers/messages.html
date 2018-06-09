@@ -1,0 +1,13 @@
+{% if session().has('success') %}
+    <div class="alert alert-success">
+        {{ session().get('success') }}
+    </div>
+{% elif session().has('warning') %}
+    <div class="alert alert-warning">
+        {{ session().get('warning') }}
+    </div>
+{% elif session().has('danger') %}
+    <div class="alert alert-danger">
+        {{ session().get('danger') }}
+    </div>
+{% endif %}

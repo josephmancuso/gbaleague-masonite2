@@ -1,0 +1,54 @@
+{% extends 'nav/base.html' %} {% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-xs-8 col-xs-offset-2">
+            <div class="panel panel-default">
+                <div class="panel-heading">Create A Team</div>
+                <div class="panel-body">
+                    {% if request().input('message') %}
+                    <div class="alert alert-success">{{ request().input('message') }}</div>
+                    {% endif %}
+                    <form action="/create/league" method="POST">
+                        {{ csrf_field|safe }}
+                        <div class="form-group">
+                            <label for="league-name">League Name</label>
+                            <input name="league-name" type="text" class="form-control">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="">League Overview</label>
+                            <textarea name="league-overview" class="form-control" cols="30" rows="10" placeholder="Quick league description"></textarea>
+                        </div>
+                        
+                        {% if auth() %}
+                            {% if auth().is_subscribed('masonite-test') %}
+                                <div class="form-group">
+                                    <button class="btn btn-success" type="submit" name="submit">Create League</button>
+                                </div>
+                            {% elif auth().is_subscribed() %}
+                                <div>
+                                    You must be subsribed to the Masonite Test plan to create leagues. You are subscribed to the {{ auth().plan() }} plan
+                                    <a href="/leaguepass" class="btn btn-success">
+                                        Become a subscriber
+                                    </a>
+                                </div>
+                            {% else %}
+                                <div>
+                                    You must be a subscriber to create a league 
+                                    <a href="/leaguepass" class="btn btn-success">
+                                        Become a subscriber
+                                    </a>
+                                </div>
+                            {% endif %}
+                        {% else %}
+                        <div>You need to login</div>
+                        {% endif %}
+
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

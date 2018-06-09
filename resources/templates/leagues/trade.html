@@ -1,0 +1,26 @@
+{% extends 'leagues/base.html' %}
+
+{% block league_content %}
+<div class="panel panel-default">
+    <div class="panel-heading">Trading</div>
+
+    <div class="panel-body">
+        {% if auth() and auth().in_league(league) %}
+        <form action="/league/{{ league.id }}/trade" method="POST">
+            <select name="pokemon" id="offer-pokemon">
+                {% for draftedpokemon in auth().get_team_pokemon(league) %}
+                <option value="{{ draftedpokemon.id }}">{{ draftedpokemon.pokemon.name }}</option>
+                {% endfor %}
+            </select>
+
+            <div class="form-group">
+                <button class="btn btn-success">
+                    <span class="fa fa-plus"></span>
+                    Offer
+                </button>
+            </div>
+        </form>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

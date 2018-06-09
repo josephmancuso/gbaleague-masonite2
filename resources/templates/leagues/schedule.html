@@ -1,0 +1,86 @@
+{% extends 'leagues/base.html' %} 
+
+{% block league_content %}
+<div class="panel panel-default">
+    <div class="panel-heading">Schedule</div>
+    <div class="panel-body">
+        {% if auth() and auth().is_league_owner(league) %}
+            {% if request().input('message') %}
+                <div class="alert alert-success">
+                    {{ request().input('message') }}
+                </div>
+            
+            {% endif %}
+            <h3 class="text-center">Create A Schedule</h3>
+
+            <form action="/league/{{ league.id }}/add-schedule" method="POST">
+                <!-- {{ csrf_field|safe }}
+                <input type="submit">
+            </form> -->
+                {{ csrf_field|safe }}
+                <input type="hidden" value="{{ league.id }}" name="league_id">
+
+                <div class="form-group">
+                    <label for="team1">Team 1</label>
+                    <select name="team1" id="team1" class="form-control" required>
+                        {% for team in league.get_teams() %}
+                            <option value="{{ team.id }}">{{ team.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="team2">Team 2</label>
+                    <select name="team2" id="team2" class="form-control" required>
+                        {% for team in league.get_teams() %}
+                            <option value="{{ team.id }}">{{ team.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                
+                <div class="form-group">
+                    <label for="datapicker">Scheduled For</label>
+                    <input type="text" id="datepicker" name="scheduled_time" class="form-control" required>
+                </div>
+
+
+                <div class="form-group">
+                    <button class="btn btn-success" type="submit" name="add-schedule">
+                        <span class="fa fa-plus"></span>
+                        <span>Add Schedule</span>
+                    </button>
+                </div>
+
+            </form>
+        {% endif %}
+
+         {% for schedule in schedules %}
+            <div class="col-xs-6 col-md-4 text-center" style="border: 1px solid gray; margin: 10px">
+                <p>{{ schedule.team1.name }}</p>
+                <p>vs</p>
+                <p>{{ schedule.team2.name }}</p>
+
+                {% if auth() and auth().is_league_owner(league) %}
+                <form action="/league/{{ league.id }}/remove-schedule" method="POST">
+                    {{ csrf_field|safe }}
+                    <input type="hidden" value="{{ schedule.id }}" name="schedule_id">
+                    <button type="submit" class="btn btn-danger">
+                        Remove
+                    </button>
+                </form>
+                    
+                {% endif %}
+                
+            </div>
+            {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
+{% block javascript %}
+<script> 
+    $( function() { $( "#datepicker" ).datepicker(); } );
+</script>
+
+{% endblock %}

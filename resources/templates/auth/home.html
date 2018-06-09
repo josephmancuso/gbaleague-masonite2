@@ -1,0 +1,26 @@
+{% extends 'nav/base.html' %}
+
+
+{% block content %}
+<div class="row">
+    <div class="col-xs-8 col-xs-offset-2">
+        <div class="panel panel-default">
+            <div class="panel-heading">Dashboard</div>
+            <div class="panel-body">
+                This is a dashboard. Hello {{ Auth.user().name }}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-12 col-xs-4">
+        * profile picture
+        * About Me
+    </div>
+    <div class="col-xs-12 col-xs-8">
+        * content like statuses
+        
+    </div>
+</div>
+{% endblock %}

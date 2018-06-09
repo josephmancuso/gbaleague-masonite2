@@ -1,0 +1,163 @@
+{% extends 'leagues/base.html' %}
+
+
+{% block league_content_left %}
+{% if auth() and auth().in_league(league) %}
+<div class="panel panel-default">
+    <div class="panel-heading">My Queued Pokemon</div>
+    <div class="panel-body">
+        
+        {% for pokemon in auth().get_queued_pokemon(league) %}
+            <div>{{ pokemon.queued.name }}</div>
+            
+            <div>
+                <form action="/league/{{ league.id}}/draft" method="POST">
+                    {{ csrf_field|safe }}
+                    <input type="hidden" name="pokemon" value="{{ pokemon.queue_id }}">
+                    {% if auth().id == league.current_id %}
+                        <button type="submit" name="draft" class="btn btn-primary">Draft</button>
+                    {% else %}
+                        <button type="submit" name="draft" class="btn btn-default" disabled>Not Your Turn</button>
+                    {% endif %}
+                    <button type="submit" name="unqueue" class="btn btn-danger">Unqueue</button>
+                </form>
+            </div>
+        {% endfor %}
+
+        {% if not auth().get_queued_pokemon(league) %}
+            <div class="text-center">No Queued Pokemon</div>
+        {% endif %}
+        
+    </div>
+</div>
+{% endif %}
+
+
+{% if auth() and auth().in_league(league) %}
+<div class="panel panel-success">
+    <div class="panel-heading">My Team</div>
+    <div class="panel-body">
+        {% for pokemon in auth().get_team_pokemon(league) %}
+            <div>{{ pokemon.pokemon.name }}</div>
+        {% endfor %}
+
+        {% if not auth().get_team_pokemon(league) %}
+            <div class="text-center">No Pokemon On Your Team!</div>
+        {% endif %}
+    </div>
+</div>
+{% endif %}
+{% endblock %}
+
+
+{% block league_content %}
+<div class="panel panel-default">
+    <div class="panel-heading">Draft</div>
+    <div class="panel-body">
+        {% include 'helpers/messages.html' %}
+
+        {% if league.status %}
+            <div>Current Drafter: {{ league.current.name }}</div>
+            
+            <h3>Showing Tier {{ tier }} Pokemon</h3>
+            <div class="dropdown">
+                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="true">
+                    Tiers
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                    <li>
+                        <a href="?tier=1">Tier 1</a>
+                    </li>
+                    <li>
+                        <a href="?tier=2">Tier 2</a>
+                    </li>
+                    <li>
+                        <a href="?tier=3">Tier 3</a>
+                    </li>
+                    
+                    <li>
+                        <a href="?tier=4">Tier 4</a>
+                    </li>
+                    <li>
+                        <a href="?tier=5">Tier 5</a>
+                    </li>
+                    <li>
+                        <a href="?tier=6">Tier 6</a>
+                    </li>
+                </ul>
+            </div>
+            <br>
+            <div class="text-center">
+                <form action="/league/{{ league.id }}/status" method="POST" style="display: inline-block">
+                    {{ csrf_field|safe }}
+                    <button class="btn btn-danger" name="draft-close">
+                        Close Draft
+                    </button>
+                </form>
+                
+                <form action="/league/{{ league.id }}/skip" method="POST" style="display: inline-block">
+                    {{ csrf_field|safe }}
+                    <button class="btn btn-primary" name="skip">
+                        Skip
+                    </button>
+                </form>
+
+            </div>
+            
+            <hr>
+            {% for chunk in league.draftable_pokemon(tier=tier).chunk(3) %}
+
+            <div class="row">
+                {% for pokemon in chunk %}
+                    <div class="col-xs-12 col-md-4 text-center">
+                        <div>{{ pokemon.name }}</div>
+                    
+                        <div>
+                            {% if auth() and auth().in_league(league) %}
+                            <form action="/league/{{ league.id}}/draft" method="POST">
+                                {{ csrf_field|safe }}
+                                <input type="hidden" name="pokemon" value="{{ pokemon.id }}"> {% if auth().id == league.current_id %}
+                                <button type="submit" name="draft" class="btn btn-primary">Draft</button>
+                                {% else %}
+                                <button type="submit" name="draft" class="btn btn-default" disabled>Not Your Turn</button>
+                                {% endif %} {% if not pokemon.id in auth().queued_pokemon(league) %}
+                                <button type="submit" name="queue" class="btn btn-success">Queue</button>
+                                {% else %}
+                                <button type="submit" name="unqueue" class="btn btn-danger">Unqueue</button>
+                                {% endif %}
+                    
+                            </form>
+                            {% else %} {% if not auth() %}
+                            <div>Sign in to start drafting</div>
+                            {% elif not auth().in_league(league) %}
+                            <div>You are not in this league</div>
+                            {% else %}
+                            <div>It is not your turn to draft</div>
+                            {% endif %} {% endif %}
+                        </div>
+                    
+                        <br>
+                    </div>
+                {% endfor %}
+            </div>
+                
+            {% endfor %}
+        {% else %}
+            <h3>Draft Closed</h3>
+
+            {% if league.get_teams().count() < 2 %}
+                <h3>You need at least 2 teams to start a draft</h3>
+            {% else %}
+                <form action="/league/{{ league.id }}/status" method="POST">
+                    {{ csrf_field|safe }}
+                    <button class="btn btn-success" name="draft-open">
+                        Open Draft
+                    </button>
+                </form>
+            {% endif %}
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

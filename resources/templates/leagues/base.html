@@ -1,0 +1,57 @@
+{% extends 'nav/base.html' %} 
+
+{% block content %}
+<div class="content">
+    
+
+    <div class="container-fluid">
+        {% if auth() and auth().is_league_owner(league) and not league.get_teams().count() %}
+            <div class="alert alert-warning">
+                There are no members in this league. If you would like to join it then use the join tab in the league navigation menu and then accept your team using the Requests tab.
+            </div>
+        {% endif %}
+        <div class="row">
+            <!-- NAVIGATION -->
+            <div class="col-xs-12 col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Navigation</div>
+                    <div class="panel-body">
+                        <ul class="nav nav-pills nav-stacked">
+                            <li>
+                                <a href="/league/{{ league.id }}">Overview</a>
+                            </li>
+                            <li>
+                                <a href="/league/{{ league.id }}/draft">Draft</a>
+                            </li>
+                            <li>
+                                <a href="/league/{{ league.id }}/teams">Teams</a>
+                            </li>
+                            <li>
+                                <a href="/league/{{ league.id }}/join">Join</a>
+                            </li>
+                            <li>
+                                <a href="/league/{{ league.id }}/schedule">Schedule</a>
+                            </li>
+
+                            {% if auth() and auth().is_league_owner(league) %}
+                                <li>
+                                    <a href="/league/{{ league.id }}/requests">Requests</a>
+                                </li>
+                                
+                                <li>
+                                    <a href="/league/{{ league.id }}/apps">App Integrations</a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+
+                {% block league_content_left %} {% endblock %}
+            </div>
+            <div class="col-xs-12 col-md-8">
+                {% block league_content %}{% endblock %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

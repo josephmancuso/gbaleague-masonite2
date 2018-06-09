@@ -1,0 +1,42 @@
+{% extends 'leagues/base.html' %}
+
+{% block league_content %}
+    <div class="panel panel-default">
+        <div class="panel-heading">Join</div>
+        <div class="panel-body">
+            {% if auth() %}
+                {% if not auth().has_pending_request(league) %}
+                    <form action="/add-team" method="POST">
+                        {{ csrf_field|safe }}
+                        <input type="hidden" name="league" value="{{ league.id }}">
+                        <div class="form-group">
+                            
+                            <label for="teams">Choose A Team</label>
+                            <select id="teams" name="team" class="form-control">
+                                {% for team in auth().get_joinable_teams() %}
+                                    <option value="{{ team.id }}"> {{ team.name }} </option>
+                                {% else %}
+                                    <option disabled> No Teams Available </option>
+                                {% endfor %}
+                            </select>
+                            <div class="help-text">These are teams that are not in leagues.</div>
+                        </div>
+
+                        <div class="form-group">
+                            {% if auth().get_joinable_teams() %}
+                                <button type="submit" class="btn btn-success" name="join"><i class="far fa-arrow-alt-circle-right"></i> Join </button>
+                            {% endif %}
+                            <a href="/create/team?back=/league/{{league.id}}/join" class="btn btn-success"><i class="fa fa-plus"></i> Create A Team </a>
+                        </div>
+                        
+                    </form>
+                {% else %}
+                    <div class="alert alert-success">Your request is pending acceptance by the league owner</div>
+                {% endif %}
+            {% else %}
+                <div>Please Sign in to join</div>
+            {% endif %}
+            
+        </div>
+    </div>
+{% endblock %}

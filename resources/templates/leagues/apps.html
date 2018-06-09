@@ -1,0 +1,35 @@
+{% extends 'leagues/base.html' %}
+
+{% block league_content %}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        App Integrations
+    </div>
+    <div class="panel-body">
+        {% if not league.slackwebhook %}
+            <a href="/integration/slack/{{ league.id }}">
+                <button class="btn btn-default">
+                    <img src="/static/logos/slack-button.svg">
+                </button>
+            </a>
+        {% else %}
+            <button class="btn btn-success">
+                Slack Integrated
+            </button>
+        {% endif %}
+        
+        {% if not league.discordid %}
+            <a href="/integration/discord/{{ league.id }}">
+                <button class="btn btn-default">
+                    <img src="/static/logos/discord.png" width="50px">
+                </button>
+            </a>
+        {% else %}
+                <button class="btn btn-success">
+                    <img src="/static/logos/discord.png" width="50px">
+                </button>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,98 @@
+{% extends 'nav/base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">Billing</div>
+                <div class="panel-body">
+                    <ul class="nav nav-pills nav-stacked">
+                        <li role="presentation">
+                            <a href="#">Subscriptions</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-8">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Update Subscription
+                </div>
+                <div class="panel-body">
+                     {% if auth() and auth().is_subscribed() %}
+                    <div>
+                        You are currently subscribed to the {{ auth().plan() }} Plan
+                    </div>
+                    <br>
+                    {% endif %}
+                    <div class="row">
+                        
+                        <div class="col-xs-6">
+                            Masonite Test
+                        </div>
+                        <div class="col-xs-6">
+                            {% if auth() %}
+                                {% if not auth().is_subscribed() %}
+                                    <form action="/leaguepass" method="POST">
+                                        {{ csrf_field|safe }}
+                                        <input type="hidden" name="plan" value="masonite-test">
+                                        <input type="hidden" name="token" value="tok_amex">
+                                        <button type="submit" class="btn btn-success">Subscribe</button>
+                                    </form>  
+                                {% elif auth().is_subscribed('masonite-flash') %}
+                                    <form action="/leaguepass/swap" method="POST">
+                                        {{ csrf_field|safe }}
+                                        <input type="hidden" name="plan" value="masonite-test">
+                                        <button type='submit' class="btn btn-primary">Swap Plan</button>
+                                    </form>
+                                {% else %}
+                                    <form action="/leaguepass/cancel" method="POST">
+                                        {{ csrf_field|safe }}
+                                        <button type="submit" class="btn btn-danger">Unsubscribe</button>
+                                    </form>
+                                {% endif %}
+                            {% else %}
+                                <div>Please Login</div>
+                            {% endif %}
+                        </div>    
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-xs-6">
+                            Masonite Flash
+                        </div>
+                        <div class="col-xs-6">
+                            {% if auth() %}
+                                {% if auth().is_subscribed('masonite-test') %}
+                                    <form action="/leaguepass/swap" method="POST">
+                                        {{ csrf_field|safe }}
+                                        <input type="hidden" name="plan" value="masonite-flash">
+                                        <button type='submit' class="btn btn-primary">Swap Plan</button>
+                                    </form>
+                                {% elif auth().is_subscribed('masonite-flash') %}
+                                    <form action="/leaguepass/cancel" method="POST">
+                                        {{ csrf_field|safe }}
+                                        <button type="submit" class="btn btn-danger">Unsubscribe</button>
+                                    </form>
+                                {% else %}
+                                    <form action="/leaguepass" method="POST">
+                                        {{ csrf_field|safe }}
+                                        <input type="hidden" name="plan" value="masonite-flash">
+                                        <input type="hidden" name="token" value="tok_amex">
+                                        <button type="submit" class="btn btn-success">Subscribe</button>
+                                    </form>
+                                    
+                                {% endif %}
+                            {% else %}
+                                <div>Please Login</div>
+                            {% endif %}
+                        </div>    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

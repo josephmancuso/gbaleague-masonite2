@@ -1,0 +1,40 @@
+{% extends 'leagues/base.html' %} 
+
+{% block league_content %}
+<div class="panel panel-default">
+    <div class="panel-heading">Teams</div>
+    <div class="panel-body">
+        <div class="text-center">
+            <div class="btn btn-success"><span class="fa fa-plus"></span> Create A Team</div>
+        </div>
+        {% for chunk in teams.chunk(3) %}
+        
+        <div class="row">
+        {% for team in chunk %}
+            <div class="col-xs-12 col-sm-6 col-md-4">
+                <div>
+                    <img src="/logos/{{ team.picture }}"
+                        style="max-height: 500px" 
+                        alt="team logo" 
+                        onError="this.onerror=null;this.src='/static/logos/noimage.jpg';" 
+                        class="img-responsive">
+                </div>
+
+                <div class="text-center">
+                    <h2>{{ team.name }}</h2>
+                </div>
+
+                <hr>
+
+                <h3 class="text-center">Pokemon</h3>
+
+                {% for drafted in team.get_team_pokemon(league) %}
+                    <h4>{{ drafted.pokemon.name }}</h4>
+                {% endfor %}
+            </div>
+        {% endfor %}
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
