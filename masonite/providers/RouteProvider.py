@@ -75,7 +75,7 @@ class RouteProvider(ServiceProvider):
                     if not route.has_required_domain():
                         print('this does not have the required subdomain')
                         self.app.bind('Response', 'Route not found. Error 404')
-                        break
+                        continue
                 """
                 |--------------------------------------------------------------------------
                 | Execute Before Middleware
