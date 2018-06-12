@@ -4,3 +4,4 @@ slugify
 raven
 masonite-billing
 gunicorn
+masonite-dashboard
