@@ -4,8 +4,8 @@ from masonite.helpers.routes import get, post, group
 from dashboard.routes import routes as DashboardRoutes
 
 ROUTES = [
-    get('/', 'WelcomeController@show').name('home').middleware('auth'),
     get('/', 'WelcomeController@show').domain('*').name('home'),
+    get('/', 'WelcomeController@show').name('home').middleware('auth'),
     get('/', 'WelcomeController@show').domain('evening-ravine-84143').name('home'),
     get('/', 'WelcomeController@show').domain('evening-ravine-84143.herokuapp').name('home'),
     get('/discover', 'WelcomeController@discover').name('discover'),
