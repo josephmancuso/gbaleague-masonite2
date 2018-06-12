@@ -78,3 +78,5 @@ ROUTES += [
 ]
 
 ROUTES += DashboardRoutes()
+
+print(ROUTES)
