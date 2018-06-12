@@ -71,7 +71,9 @@ class RouteProvider(ServiceProvider):
                 route.load_request(request)
                 if request.has_subdomain():
                     # check if the subdomain matches the routes domain
+                    print('request has a subdomain')
                     if not route.has_required_domain():
+                        print('this does not have the required subdomain')
                         self.app.bind('Response', 'Route not found. Error 404')
                         break
                 """
