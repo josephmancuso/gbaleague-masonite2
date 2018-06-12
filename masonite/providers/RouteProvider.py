@@ -15,6 +15,8 @@ class RouteProvider(ServiceProvider):
     def boot(self, WebRoutes, Route, Request, Environ, Headers):
         # All routes joined
         print('Request Path: ', Request.path)
+        print('Has Subdomain?: ', Request.has_subdomain())
+        print('Subdomain: ', Request.subdomain)
         print('Environ: ', Environ)
         for route in WebRoutes:
             router = Route
