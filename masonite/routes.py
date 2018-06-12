@@ -151,6 +151,7 @@ class BaseHttpRoute:
         return self
 
     def has_required_domain(self):
+        print('has required domain?', self.required_domain)
         if self.request.has_subdomain() and (self.required_domain is '*' or self.request.subdomain == self.required_domain):
             return True
         return False
