@@ -3,3 +3,4 @@ masonite==2.0.0b2
 slugify
 raven
 masonite-billing
+gunicorn
