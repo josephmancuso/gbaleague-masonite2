@@ -1,8 +1,7 @@
 ''' Start of Application. This function is the gunicorn server '''
 
 from pydoc import locate
-
-from dotenv import find_dotenv, load_dotenv
+from masonite.environment import LoadEnvironment
 
 '''
 |--------------------------------------------------------------------------
@@ -13,7 +12,7 @@ from dotenv import find_dotenv, load_dotenv
 |
 '''
 
-load_dotenv(find_dotenv())
+LoadEnvironment()
 
 def app(environ, start_response):
     ''' The WSGI Application Server '''

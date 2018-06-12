@@ -67,30 +67,31 @@ URL = 'http://localhost:8000'
 
 PROVIDERS = [
     # Framework Providers
-    'masonite.providers.AppProvider.AppProvider',
-    'app.providers.SessionProvider.SessionProvider',
-    'masonite.providers.RouteProvider.RouteProvider',
+    'masonite.providers.AppProvider',
+    'masonite.providers.SessionProvider',
+    'masonite.providers.RouteProvider',
+    # New provider here above StartResponseProvider
+    'masonite.providers.StatusCodeProvider',
     # 'entry.providers.ApiProvider.ApiProvider',
-    'masonite.providers.RedirectionProvider.RedirectionProvider',
-    'masonite.providers.StartResponseProvider.StartResponseProvider',
-    'masonite.providers.SassProvider.SassProvider',
-    'masonite.providers.WhitenoiseProvider.WhitenoiseProvider',
+    'masonite.providers.StartResponseProvider',
+    'masonite.providers.SassProvider',
+    'masonite.providers.WhitenoiseProvider',
 
     # Optional Framework Providers
-    'masonite.providers.MailProvider.MailProvider',
-    'masonite.providers.UploadProvider.UploadProvider',
-    'masonite.providers.ViewProvider.ViewProvider',
-    'masonite.providers.HelpersProvider.HelpersProvider',
-    'masonite.providers.QueueProvider.QueueProvider',
-    'masonite.providers.BroadcastProvider.BroadcastProvider',
-    'masonite.providers.CacheProvider.CacheProvider',
-    'masonite.providers.CsrfProvider.CsrfProvider',
+    'masonite.providers.MailProvider',
+    'masonite.providers.UploadProvider',
+    'masonite.providers.ViewProvider',
+    'masonite.providers.HelpersProvider',
+    'masonite.providers.QueueProvider',
+    'masonite.providers.BroadcastProvider',
+    'masonite.providers.CacheProvider',
+    'masonite.providers.CsrfProvider',
 
     # Third Party Providers
-    'integrations.providers.IntegrationProvider.IntegrationProvider',
     'billing.providers.BillingProvider',
     'app.providers.SentryServiceProvider.SentryServiceProvider',
     'app.providers.UploadBackblazeProvider.UploadBackblazeProvider',
+    'dashboard.providers.DashboardProvider',
 
     # Application Providers
     'app.providers.UserModelProvider.UserModelProvider',
@@ -118,3 +119,18 @@ BASE_DIRECTORY = os.getcwd()
 '''
 
 STATIC_ROOT = os.path.join(BASE_DIRECTORY, 'storage')
+
+'''
+|--------------------------------------------------------------------------
+| Autoload Directories
+|--------------------------------------------------------------------------
+|
+| List of directories that are used to find classes and autoload them into 
+| the Service Container. This is initially used to find models and load
+| them in but feel free to autoload any directories
+|
+'''
+
+AUTOLOAD = [
+    'app',
+]

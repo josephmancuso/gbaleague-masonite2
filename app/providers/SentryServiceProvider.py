@@ -6,7 +6,8 @@ from ..helpers.SentryExceptionHook import SentryExceptionHook
 class SentryServiceProvider(ServiceProvider):
 
     def register(self):
-        self.app.bind('SentryExceptionHook', SentryExceptionHook())
+        if self.app.make('Application').DEBUG == 'False':
+            self.app.bind('SentryExceptionHook', SentryExceptionHook())
 
     def boot(self):
         pass

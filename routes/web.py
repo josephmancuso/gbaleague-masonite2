@@ -1,6 +1,7 @@
 ''' Web Routes '''
 from masonite.routes import Get, Post
 from masonite.helpers.routes import get, post, group
+from dashboard.routes import routes as DashboardRoutes
 
 ROUTES = [
     get('/', 'WelcomeController@show').name('home').middleware('auth'),
@@ -33,7 +34,7 @@ ROUTES = [
 
     # League Requests
     get('/league/@id/requests', 'RequestController@show'),
-    get('/handle-team-request', 'RequestController@handle'),
+    post('/handle-team-request', 'RequestController@handle'),
 
     # League App Integrations
     get('/league/@id/apps', 'AppIntegrationsController@show'),
@@ -74,3 +75,5 @@ ROUTES += [
     post('/register', 'RegisterController@store'),
     get('/home', 'HomeController@show'),
 ]
+
+ROUTES += DashboardRoutes()

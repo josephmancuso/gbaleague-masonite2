@@ -3,7 +3,7 @@
 from config.database import Model
 from app.Team import Team
 from app.DraftedPokemon import DraftedPokemon
-from app.Request import Request as LeagueRequest
+from app.Requests import Requests as LeagueRequest
 from billing.models.Billable import Billable
 
 class User(Model, Billable):

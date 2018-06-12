@@ -2,8 +2,9 @@
 from config.database import Model
 from orator.orm import belongs_to
 
-class Request(Model):
+class Requests(Model):
     __fillable__ = ['team_id', 'league_id']
+    __table__ = 'requests'
 
     @belongs_to('team_id', 'id')
     def team(self):

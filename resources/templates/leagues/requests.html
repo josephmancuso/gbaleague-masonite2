@@ -4,15 +4,14 @@
 <div class="panel panel-default">
     <div class="panel-heading">Requests</div>
     <div class="panel-body">
-        {% if request().input('message') %}
-            <div class="alert alert-success">{{ request().input('message') }}</div>
-        {% endif %}
+        {% include 'helpers/messages.html' %}
         {% for requests in league_requests %}
             <div class="col-xs-9">
                 {{ requests.team.name }} owned by {{ requests.team.owner.name }}
             </div>
 
-            <form action="/handle-team-request">
+            <form action="/handle-team-request" method="POST">
+                {{ csrf_field|safe }}
                 <input type="hidden" value="{{ league.id }}" name="league_id">
                 <input type="hidden" value="{{ requests.team_id }}" name="team_id">
                 <input type="hidden" value="{{ requests.id }}" name="request_id">

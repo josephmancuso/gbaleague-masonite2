@@ -1,6 +1,6 @@
 ''' A Module Description '''
 
-from app.Request import Request
+from app.Requests import Requests
 from app.League import League
 from app.Team import Team
 
@@ -10,13 +10,13 @@ class RequestController(object):
     def show(self):
         league = League.find(request().param('id'))
 
-        requests = Request.where('league_id', league.id).get()
+        requests = Requests.where('league_id', league.id).get()
 
         return view('leagues/requests', {'league': league, 'league_requests': requests})
 
     def store(self):
         league = League.find(request().input('league'))
-        Request.create(
+        Requests.create(
             team_id=request().input('team'),
             league_id=request().input('league')
         )
@@ -25,7 +25,7 @@ class RequestController(object):
 
         league.broadcast('{0} owned by {1} has requested to join your league'.format(team.name, team.owner.name))
 
-        return request().redirect('/league/@id/join?message=Request Successfully Submitted!')
+        return request().redirect('/league/@id/join?message=Requests Successfully Submitted!', {'id': league.id})
 
     def handle(self):
         league = League.find(request().input('league_id'))
@@ -37,11 +37,17 @@ class RequestController(object):
             team.save()
 
             ## delete the request
-            Request.find(request().input('request_id')).delete()
+            Requests.find(request().input('request_id')).delete()
 
-            request().redirect( '/league/@id/requests?message=Accepted request').send({'id': league.id})
+            return request() \
+                .redirect( '/league/@id/requests', {'id': league.id}) \
+                .session.flash('success' 'Accepted request')
 
         elif request().has('decline'):
             ## simply delete request
-            Request.find(request().input('request_id')).delete()
-            request().redirect('/league/@id/requests?message=Declined request').send({'id': league.id})
+            Requests.find(request().input('request_id')).delete()
+            return request() \
+                .redirect('/league/@id/requests', {'id': league.id}) \
+                .session.flash('success', 'Declined request')
+        
+        return request().redirect('/league/@id/requests?message=Unable to process request', {'id': league.id})

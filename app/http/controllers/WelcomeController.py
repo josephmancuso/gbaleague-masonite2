@@ -9,12 +9,9 @@ class WelcomeController:
 
     def show(self, Cache):
         ''' Show Welcome Template '''
-        # return request().redirect('/login')
-        # self.cache.store('key', 'new value bitches')
-        return view('index')
+        return view('index', {'key': 'value'})
 
     def discover(self, Session):
-        # self.cache.store('key', 'new value bitches')
         if request().input('search'):
             leagues = League.all().filter(lambda league: request().input('search').lower() in league.name.lower())
         else:
