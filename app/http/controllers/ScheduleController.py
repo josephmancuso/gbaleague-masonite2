@@ -4,7 +4,7 @@ from app.Schedule import Schedule
 from app.League import League
 import datetime
 
-class ScheduleController(object):
+class ScheduleController:
     ''' Class Docstring Description '''
 
     def show(self):

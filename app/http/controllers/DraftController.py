@@ -1,11 +1,12 @@
 ''' A Module Description '''
 
-from app.League import League
 from app.DraftedPokemon import DraftedPokemon
+from app.League import League
 from app.Pokemon import Pokemon
 from app.Team import Team
 
-class DraftController(object):
+
+class DraftController:
     ''' Class Docstring Description '''
 
     def show(self, Request):
@@ -71,5 +72,3 @@ class DraftController(object):
             league.close_draft()
 
         return request().redirect('/league/{0}/draft'.format(league.id))
-
-    

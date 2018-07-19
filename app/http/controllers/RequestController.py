@@ -4,7 +4,7 @@ from app.Requests import Requests
 from app.League import League
 from app.Team import Team
 
-class RequestController(object):
+class RequestController:
     ''' Class Docstring Description '''
 
     def show(self):

@@ -1,71 +1,65 @@
-''' A Module Description '''
-from masonite.view import View
+""" A Module Description """
 from masonite.request import Request
-from app.League import League
-from app.Team import Team
+from masonite.view import View
 from slugify import slugify
 
+from app.League import League
+from app.Team import Team
+
+
 class LeagueController:
-    ''' Class Docstring Description '''
+    """ Class Docstring Description """
 
     def __init__(self, league: League, view: View, request: Request):
-        self.league = league
         self.view = view
         self.request = request
+        self.league = league.find(self.request.param('id'))
 
     def show(self):
-        league = self.league.find(request().param('id'))
+        league = self.league.find(self.request.param('id'))
 
-        return view('leagues/index', {'league': league})
+        return self.view.render('leagues/index', {'league': league})
 
     def teams(self):
-        league = League.find(request().param('id'))
-        teams = Team.where('league_id', league.id).get()
+        teams = Team.where('league_id', self.league.id).get()
 
-        return view('leagues/teams', {'league': league, 'teams': teams})
+        return self.view.render('leagues/teams', {'league': self.league, 'teams': teams})
 
     def create(self):
-        return view('create/leagues')
+        return self.view.render('create/leagues')
 
     def store(self):
-        print('storing')
         league = League.create(
-            name = request().input('league-name'),
-            owner_id = auth().id,
-            description = request().input('league-overview'),
-            slug = slugify(request().input('league-name')),
-            current_id = None,
-            draftorder = None,
+            name=self.request.input('league-name'),
+            owner_id=self.request.user().id,
+            description=self.request.input('league-overview'),
+            slug=slugify(self.request.input('league-name')),
+            current_id=None,
+            draftorder=None,
         )
 
-        print('storing')
-
-        request().redirect('/league/{0}'.format(league.id))
+        return self.request.redirect_to('league.id', {'id': league.id})
 
     def join(self):
-        league = League.find(request().param('id'))
-        return view('leagues/join', {'league': league})
+        return self.view.render('leagues/join', {'league': self.league})
 
     def skip(self):
-        league = League.find(request().param('id'))
-        league.skip_user()
+        self.league.skip_user()
 
-        request().session.flash('info', 'User Skipped!')
+        self.request.session.flash('info', 'User Skipped!')
 
-        return request().redirect_to('league.draft', {'id': league.id})
+        return self.request.redirect_to('league.draft', {'id': self.league.id})
 
     def delete(self):
-        League.find(request().param('id')).delete()
+        self.league.delete()
 
-        return request().redirect_to('discover')
+        return self.request.redirect_to('discover')
 
     def edit(self):
-        league = League.find(request().param('id'))
-        return self.view.render('leagues/edit', {'league': league})
+        return self.view.render('leagues/edit', {'league': self.league})
 
     def store_edit(self):
-        league = League.find(request().param('id'))
-        league.description = self.request.input('overview')
-        league.save()
+        self.league.description = self.request.input('overview')
+        self.league.save()
 
-        return self.request.redirect_to('league.id', {'id': league.id})
+        return self.request.redirect_to('league.id', {'id': self.league.id})

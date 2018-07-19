@@ -2,7 +2,7 @@
 
 from app.Team import Team
 
-class TeamController(object):
+class TeamController:
     ''' Class Docstring Description '''
 
     def show(self):
