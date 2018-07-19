@@ -33,4 +33,5 @@ HTTP_MIDDLEWARE = [
 
 ROUTE_MIDDLEWARE = {
     'auth':  'app.http.middleware.AuthenticationMiddleware.AuthenticationMiddleware',
+    'league.owner':  'app.http.middleware.LeagueOwner.LeagueOwner',
 }

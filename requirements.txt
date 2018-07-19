@@ -1,7 +1,8 @@
 waitress==1.1.0
-masonite==2.0.0b2
+masonite==2.0.10
 slugify
 raven
 masonite-billing
 gunicorn
 masonite-dashboard
+pyjwt

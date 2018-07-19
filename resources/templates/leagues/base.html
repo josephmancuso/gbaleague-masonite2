@@ -2,8 +2,6 @@
 
 {% block content %}
 <div class="content">
-    
-
     <div class="container-fluid">
         {% if auth() and auth().is_league_owner(league) and not league.get_teams().count() %}
             <div class="alert alert-warning">
@@ -37,9 +35,24 @@
                                 <li>
                                     <a href="/league/{{ league.id }}/requests">Requests</a>
                                 </li>
+
+                                <li>
+                                    <a href="{{ route('league.edit', {'id': league.id}) }}">Edit</a>
+                                </li>
                                 
                                 <li>
                                     <a href="/league/{{ league.id }}/apps">App Integrations</a>
+                                </li>
+                                <hr>
+                                <li><h4>Danger Zone</h4></li>
+                                <li>
+                                    <form action="{{ route('league.delete', {'id': league.id}) }}" method="POST">
+                                        {{ csrf_field|safe }}
+                                        <button type="submit" class="btn btn-danger">
+                                            Delete
+                                        </button>
+                                    </form>
+                                    
                                 </li>
                             {% endif %}
                         </ul>

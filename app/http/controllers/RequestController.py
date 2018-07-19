@@ -41,7 +41,7 @@ class RequestController(object):
 
             return request() \
                 .redirect( '/league/@id/requests', {'id': league.id}) \
-                .session.flash('success' 'Accepted request')
+                .session.flash('success', 'Accepted request')
 
         elif request().has('decline'):
             ## simply delete request

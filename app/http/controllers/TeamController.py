@@ -26,10 +26,7 @@ class TeamController(object):
         if logo:
             Upload.store(request().input('logo'))
 
-        if request().session.has('back'):
-            return request().redirect(request().session.get('back'))
-
         if create_team:
-            return request().redirect('create/team?message=Created Successfully')
-        else:
-            return request().redirect('/create/team?message=Could Not Create Team')
+            return request().back(default='create/team?message=Created Successfully')
+        
+        return request().redirect('/create/team?message=Could Not Create Team')

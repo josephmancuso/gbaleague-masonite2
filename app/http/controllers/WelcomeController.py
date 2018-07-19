@@ -1,25 +1,38 @@
-''' Welcome The User To Masonite '''
-import requests
+""" Welcome The User To Masonite """
+from masonite.request import Request
+from masonite.view import View
 
 from app.League import League
-from app.User import User
+
 
 class WelcomeController:
-    ''' Controller For Welcoming The User '''
+    """ Controller For Welcoming The User """
 
-    def show(self, Cache):
+    def __init__(self, view: View, request: Request):
+        self.view = view
+        self.request = request
+
+    def show(self) -> View.render:
         ''' Show Welcome Template '''
-        return view('index', {'key': 'value'})
 
-    def discover(self, Session):
-        if request().input('search'):
-            leagues = League.all().filter(lambda league: request().input('search').lower() in league.name.lower())
+        return self.view.render('index')
+
+    def discover(self) -> View.render:
+        """Shows the discover page
+
+        Returns:
+            View.render
+        """
+
+        if self.request.input('search'):
+            leagues = League.all().filter(lambda league: self.request.input(
+                'search').lower() in league.name.lower())
         else:
             leagues = League.all()
 
-        return view('discover', {'leagues': leagues})
+        return self.view.render('discover', {'leagues': leagues})
 
-    def slack(self, IntegrationManager):
+    def slack(self):
         return ''
         # response = IntegrationManager.driver('discord').user()
 

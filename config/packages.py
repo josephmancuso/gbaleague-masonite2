@@ -20,8 +20,9 @@
 '''
 
 SITE_PACKAGES = [
-    '/Users/mancuso/Desktop/packages/integrations',
-    '/Users/mancuso/Desktop/packages/masonite-billing',
-    '/Users/joseph/Programming/dashboard'
+    # '/Users/mancuso/Desktop/packages/integrations',
+    # '/Users/mancuso/Desktop/packages/masonite-billing',
+    '/Users/joseph/Programming/dashboard',
     # '/Users/mancuso/Desktop/larapy',
+    '/Users/joseph/Programming/entry',
 ]

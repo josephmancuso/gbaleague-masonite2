@@ -1,14 +1,20 @@
 ''' A Module Description '''
-
+from masonite.view import View
+from masonite.request import Request
 from app.League import League
 from app.Team import Team
 from slugify import slugify
 
-class LeagueController(object):
+class LeagueController:
     ''' Class Docstring Description '''
 
+    def __init__(self, league: League, view: View, request: Request):
+        self.league = league
+        self.view = view
+        self.request = request
+
     def show(self):
-        league = League.find(request().param('id'))
+        league = self.league.find(request().param('id'))
 
         return view('leagues/index', {'league': league})
 
@@ -22,6 +28,7 @@ class LeagueController(object):
         return view('create/leagues')
 
     def store(self):
+        print('storing')
         league = League.create(
             name = request().input('league-name'),
             owner_id = auth().id,
@@ -31,6 +38,8 @@ class LeagueController(object):
             draftorder = None,
         )
 
+        print('storing')
+
         request().redirect('/league/{0}'.format(league.id))
 
     def join(self):
@@ -38,6 +47,25 @@ class LeagueController(object):
         return view('leagues/join', {'league': league})
 
     def skip(self):
-        League.find(request().param('id')).skip_user()
-        
-        return request().redirect('/league/@id/draft')
+        league = League.find(request().param('id'))
+        league.skip_user()
+
+        request().session.flash('info', 'User Skipped!')
+
+        return request().redirect_to('league.draft', {'id': league.id})
+
+    def delete(self):
+        League.find(request().param('id')).delete()
+
+        return request().redirect_to('discover')
+
+    def edit(self):
+        league = League.find(request().param('id'))
+        return self.view.render('leagues/edit', {'league': league})
+
+    def store_edit(self):
+        league = League.find(request().param('id'))
+        league.description = self.request.input('overview')
+        league.save()
+
+        return self.request.redirect_to('league.id', {'id': league.id})

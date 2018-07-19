@@ -12,6 +12,9 @@
                     {% endif %}
                     <form action="/create/team" method="POST" enctype="multipart/form-data">
                         {{ csrf_field|safe }}
+                        {% if request().input('back') %}
+                            {{ back(request().input('back'))|safe }}
+                        {% endif %}
                         <div class="form-group">
                             <label for="team-name">Team Name</label>
                             <input id="team-name" name="name" type="text" class="form-control">

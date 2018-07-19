@@ -5,7 +5,11 @@
     <div class="panel-heading">Teams</div>
     <div class="panel-body">
         <div class="text-center">
-            <div class="btn btn-success"><span class="fa fa-plus"></span> Create A Team</div>
+            <a href="{{ route('create.teams') }}?back={{ route('league.join', {'id': league.id}) }}">
+                <div class="btn btn-success">
+                    <span class="fa fa-plus"></span> Create A Team</div>
+            </a>
+            
         </div>
         {% for chunk in teams.chunk(3) %}
         

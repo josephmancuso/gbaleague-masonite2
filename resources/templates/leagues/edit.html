@@ -1,0 +1,19 @@
+{% extends 'leagues/base.html' %} 
+
+{% block league_content %}
+<div class="panel panel-default">
+    <div class="panel-heading">Overview</div>
+    <div class="panel-body">
+        <form action="{{ route('league.edit.store', {'id': league.id}) }}" method="POST">
+            {{ csrf_field|safe }}
+            <textarea name="overview" id="" cols="30" rows="10" class="form-control">{{ league.description }}</textarea>
+            <br>
+            <div class="text-center">
+                <button type="submit" class="btn btn-success">Update</button>
+            </div>
+        </form>
+    </div>
+
+
+</div>
+{% endblock %}

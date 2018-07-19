@@ -13,4 +13,4 @@
 |
 '''
 
-DRIVER = 'memory'
+DRIVER = 'cookie'

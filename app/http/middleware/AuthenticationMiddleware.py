@@ -1,17 +1,17 @@
-''' Authentication Middleware '''
+""" Authentication Middleware """
 
 class AuthenticationMiddleware(object):
-    ''' Middleware To Check If The User Is Logged In '''
+    """ Middleware To Check If The User Is Logged In """
 
     def __init__(self, Request):
-        ''' Inject Any Dependencies From The Service Container '''
+        """ Inject Any Dependencies From The Service Container """
         self.request = Request
 
     def before(self):
-        ''' Run This Middleware Before The Route Executes '''
+        """ Run This Middleware Before The Route Executes """
         if not self.request.user():
-            self.request.redirect('/login')
+            self.request.redirect_to('login')
 
     def after(self):
-        ''' Run This Middleware After The Route Executes '''
+        """ Run This Middleware After The Route Executes """
         pass

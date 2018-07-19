@@ -1,12 +1,14 @@
 ''' A League Database Model '''
-from config.database import Model
-from config import database
-from orator.orm import belongs_to, has_many
+import requests
 from backpack import collect
+from orator.orm import belongs_to, has_many
 
 from app.Schedule import Schedule
 from app.Team import Team
-import requests
+
+from config import database
+from config.database import Model
+
 
 class League(Model):
 
@@ -86,10 +88,26 @@ class League(Model):
     def get_teams(self):
         return Team.where('league_id', self.id).get()
 
+    def start_draft(self):
+        self.draftorder = ''
+        for team in self.get_teams():
+            self.draftorder += str(team.owner_id) + ','
+
+        self.draftorder = self.draftorder[:-1]
+        if not self.current_id:
+            self.current_id = self.draftorder[0]
+
+        self.status = 1
+        self.save()
+
+    def close_draft(self):
+        self.status = 0
+        self.save()
+
     def broadcast(self, message):
         if self.slackwebhook:
             requests.post(self.slackwebhook, json={'text': message})
-        
+
         if self.discordid:
             requests.post('https://discordapp.com/api/webhooks/{0}/{1}'.format(self.discordid, self.discordtoken), json={'content': message, 'username': 'GBALeague.com'})
 

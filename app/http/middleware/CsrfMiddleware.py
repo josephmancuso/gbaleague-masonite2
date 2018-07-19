@@ -7,7 +7,7 @@ class CsrfMiddleware:
     ''' Verify CSRF Token Middleware '''
 
     exempt = [
-        '/stripe/webhook'
+        '/stripe/webhook',
     ]
 
     def __init__(self, Request, Csrf, ViewClass):

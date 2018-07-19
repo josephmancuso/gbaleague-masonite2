@@ -5,7 +5,11 @@
         <div class="panel-heading">Join</div>
         <div class="panel-body">
             {% if auth() %}
-                {% if not auth().has_pending_request(league) %}
+                {% if auth() and auth().in_league(league) %}
+                    <div class="alert alert-info">
+                        You are already in this league.
+                    </div>
+                {% elif not auth().has_pending_request(league) %}
                     <form action="/add-team" method="POST">
                         {{ csrf_field|safe }}
                         <input type="hidden" name="league" value="{{ league.id }}">

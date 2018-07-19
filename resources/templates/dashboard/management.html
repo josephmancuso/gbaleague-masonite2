@@ -1,0 +1,76 @@
+{% extends 'dashboard/base.html' %} 
+
+{% block content %} 
+
+<div class="col-xs-9">
+    <div class="row">
+        <div class="col-xs-12">
+        <form action="">
+            <div class="form-group">
+                <input type="text" placeholder="search ..." class="form-control" name="search">
+            </div>
+        </form>
+        </div>
+
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-xs-12">
+                    <h4>User Management</h4>
+                    <a href="/dashboard/management/show">
+                        <span class="btn btn-success">
+                            <span class="fa fa-plus"></span>
+                        </span>
+                    </a>
+                </div>
+            </div>
+            {% if request().input('search') %}
+                <br>
+                <a href="/dashboard/management" class="btn btn-success">Show All</a>
+            {% endif %}
+            <hr>
+            {% for user in users %} 
+                <div class="row">
+                    <div class="col-xs-1">
+                        {{ user.id }}
+                    </div>
+                    <div class="col-xs-5 text-center">
+                        {{ user.name }}
+                    </div>
+                    <div class="col-xs-4">
+                        {{ user.email }}
+                    </div>
+                    <div class="col-xs-2">
+                        <form action="/dashboard/login_as_user" method="POST" style="display: inline">
+                            {{ csrf_field|safe }}
+                            <input type="hidden" value="{{ user.id }}" name="user">
+                            <button class="btn btn-primary" title="Login as {{ user.name}}">
+                                <span class="fa fa-user"></span>
+                            </button>
+                        </form>
+                        <form action="/dashboard/delete" method="POST" style="display: inline">
+                            {{ csrf_field|safe }}
+                            <input type="hidden" value="{{ user.id }}" name="user">
+                            <button class="btn btn-danger" title="Delete {{ user.name}}">
+                                <span class="fa fa-times"></span>
+                            </button>
+                        </form>
+
+                    </div>
+                </div>
+                <br>
+            {% else %}
+            <div class="row">
+                <div class="col-xs-12 text-center">
+                    <h4>No users found</h4>
+                </div>
+            </div>
+            {% endfor %}
+
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

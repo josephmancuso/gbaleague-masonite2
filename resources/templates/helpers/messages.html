@@ -2,6 +2,10 @@
     <div class="alert alert-success">
         {{ session().get('success') }}
     </div>
+{% elif session().has('info') %}
+    <div class="alert alert-info">
+        {{ session().get('info') }}
+    </div>
 {% elif session().has('warning') %}
     <div class="alert alert-warning">
         {{ session().get('warning') }}

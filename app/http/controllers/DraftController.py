@@ -66,11 +66,9 @@ class DraftController(object):
     def status(self):
         league = League.find(request().param('id'))
         if request().has('draft-open'):
-            league.status = 1
+            league.start_draft()
         elif request().has('draft-close'):
-            league.status = 0
-        
-        league.save()
+            league.close_draft()
 
         return request().redirect('/league/{0}/draft'.format(league.id))
 
