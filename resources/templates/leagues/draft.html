@@ -89,22 +89,24 @@
                 </ul>
             </div>
             <br>
-            <div class="text-center">
-                <form action="/league/{{ league.id }}/status" method="POST" style="display: inline-block">
-                    {{ csrf_field|safe }}
-                    <button class="btn btn-danger" name="draft-close">
-                        Close Draft
-                    </button>
-                </form>
-                
-                <form action="/league/{{ league.id }}/skip" method="POST" style="display: inline-block">
-                    {{ csrf_field|safe }}
-                    <button class="btn btn-primary" name="skip">
-                        Skip
-                    </button>
-                </form>
+            {% if auth() and auth().is_league_owner(league) %}
+                <div class="text-center">
+                    <form action="/league/{{ league.id }}/status" method="POST" style="display: inline-block">
+                        {{ csrf_field|safe }}
+                        <button class="btn btn-danger" name="draft-close">
+                            Close Draft
+                        </button>
+                    </form>
+                    
+                    <form action="/league/{{ league.id }}/skip" method="POST" style="display: inline-block">
+                        {{ csrf_field|safe }}
+                        <button class="btn btn-primary" name="skip">
+                            Skip
+                        </button>
+                    </form>
 
-            </div>
+                </div>
+            {% endif %}
             
             <hr>
             {% for chunk in league.draftable_pokemon(tier=tier).chunk(3) %}
@@ -149,7 +151,7 @@
 
             {% if league.get_teams().count() < 2 %}
                 <h3>You need at least 2 teams to start a draft</h3>
-            {% else %}
+            {% elif auth() and auth().is_league_owner(league) %}
                 <form action="/league/{{ league.id }}/status" method="POST">
                     {{ csrf_field|safe }}
                     <button class="btn btn-success" name="draft-open">

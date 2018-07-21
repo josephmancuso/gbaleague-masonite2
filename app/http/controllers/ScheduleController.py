@@ -3,6 +3,7 @@
 from app.Schedule import Schedule
 from app.League import League
 import datetime
+import pendulum
 
 class ScheduleController:
     ''' Class Docstring Description '''
@@ -14,13 +15,13 @@ class ScheduleController:
 
     def store(self):
         league = League.find(request().input('league_id'))
-        dt = datetime.datetime.strptime(request().input('scheduled_time'), '%m/%d/%Y')
+        date = pendulum.from_format(request().input('scheduled_time'), '%m/%d/%Y')
 
         Schedule.create(
             league_id=league.id,
             team1_id=request().input('team1'),
             team2_id=request().input('team2'),
-            scheduled_for=dt.strftime('%Y-%m-%d'),
+            scheduled_for=date,
         )
 
         return request().redirect('/league/{0}/schedule'.format(league.id))

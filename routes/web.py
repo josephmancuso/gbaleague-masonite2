@@ -29,6 +29,8 @@ ROUTES = [
             get('/@id/requests', 'RequestController@show').name('requests'),
             get('/@id/edit', 'LeagueController@edit').name('edit'),
             post('/@id/edit', 'LeagueController@store_edit').name('edit.store'),
+            post('/@id/teams/points', 'LeagueController@points').name('points.change'),
+            post('/@id/teams/remove', 'LeagueController@remove').name('team.remove'),
         ], middleware=('auth', 'league.owner',)),
 
         # League Member Routes
@@ -46,7 +48,7 @@ ROUTES = [
         get('/team', 'TeamController@show').name('teams'),
         post('/team', 'TeamController@store').name('create-team'),
 
-        get('/league', 'LeagueController@create').name('create-league').name('leagues'),
+        get('/league', 'LeagueController@create').name('leagues'),
         post('/league', 'LeagueController@store'),
     ], prefix='/create', name="create.", middleware=('auth',)),
 
@@ -57,6 +59,14 @@ ROUTES = [
         post('/swap', 'PremiumController@update'),
         post('/cancel', 'PremiumController@delete'),
     ], prefix="/leaguepass"),
+
+    # Settings
+    RouteGroup([
+        get('', 'SettingsController@show').name('show'),
+        get('/leagues', 'SettingsController@leagues').name('leagues'),
+        get('/teams', 'SettingsController@teams').name('teams'),
+        get('/plans', 'SettingsController@plans').name('plans'),
+    ], prefix="/me/settings", name="settings.", middleware=('auth',)),
 
     # Authentication
     RouteGroup([

@@ -58,6 +58,22 @@ class LeagueController:
     def edit(self):
         return self.view.render('leagues/edit', {'league': self.league})
 
+    def points(self):
+        team = Team.find(self.request.input('team'))
+        team.points = self.request.input('points')
+        team.save()
+
+        self.request.session.flash('success', 'Successfully Changed Points')
+        return self.request.back()
+
+    def remove(self):
+        team = Team.find(self.request.input('team'))
+        team.league_id = None
+        team.save()
+
+        self.request.session.flash('success', 'Successfully Removed Team')
+        return self.request.back()
+
     def store_edit(self):
         self.league.description = self.request.input('overview')
         self.league.save()

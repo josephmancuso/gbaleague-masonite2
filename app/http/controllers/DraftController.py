@@ -1,6 +1,7 @@
 ''' A Module Description '''
 
 from app.DraftedPokemon import DraftedPokemon
+from masonite.request import Request
 from app.League import League
 from app.Pokemon import Pokemon
 from app.Team import Team
@@ -9,60 +10,65 @@ from app.Team import Team
 class DraftController:
     ''' Class Docstring Description '''
 
-    def show(self, Request):
-        league = League.find(Request.param('id'))
+    def __init__(self, request: Request):
+        self.request = request
+        self.league = League.find(request.param('id'))
+        pass
 
-        if request().has('tier'):
-            tier = request().input('tier')
+    def show(self):
+        if self.request.has('tier'):
+            tier = self.request.input('tier')
         else:
             tier = 1
 
-        return view('leagues/draft', {'league': league, 'tier': tier})
+        return view('leagues/draft', {'league': self.league, 'tier': tier})
 
     def draft(self, Request):
-        league = League.find(Request.param('id'))
-
-        if Request.has('draft'):
+        if self.request.has('draft'):
             DraftedPokemon.create(
-                team_id=league.current.team(league).id,
-                pokemon_id=Request.input('pokemon'),
-                league_id=league.id
+                team_id=self.league.current.team(self.league).id,
+                pokemon_id=self.request.input('pokemon'),
+                league_id=self.league.id
             )
 
-            DraftedPokemon.where('queue_id', Request.input(
-                'pokemon')).where('league_id', league.id).delete()
+            DraftedPokemon.where('queue_id', self.request.input(
+                'pokemon')).where('league_id', self.league.id).delete()
 
             # Get Pokemon
-            pokemon = Pokemon.find(Request.input('pokemon'))
-            team = Team.find(league.current.team(league).id)
+            pokemon = Pokemon.find(self.request.input('pokemon'))
+            team = Team.find(self.league.current.team(self.league).id)
 
-            league.broadcast('{0} was drafted by {1}'.format(pokemon.name, team.name))
+            team.points -= pokemon.points
+            team.save()
 
-            league.next_drafter()
+            self.league.broadcast('{0} was drafted by {1}'.format(pokemon.name, team.name))
 
-            return Request.redirect('/league/@id/draft') \
+            self.league.next_drafter()
+
+            self.request.redirect_to('league.draft', {'id': self.league.id}) \
                 .session.flash('success', 'Successfully Drafted {0}'.format(pokemon.name))
 
-        elif Request.has('unqueue'):
+        elif self.request.has('unqueue'):
             DraftedPokemon \
-                .where('queue_id', Request.input('pokemon')) \
-                .where('team_id', Request.user()
-                       .team(league).id).where('league_id', league.id) \
+                .where('queue_id', self.request.input('pokemon')) \
+                .where('team_id', self.request.user()
+                       .team(self.league).id).where('league_id', self.league.id) \
                 .first().delete()
 
-            return Request.redirect('/league/@id/draft') \
+            return self.request.redirect_to('league.draft', {'id': self.league.id}) \
                 .session.flash('success', 'Successfully Unqueued')
 
-        elif Request.has('queue'):
+        elif self.request.has('queue'):
             DraftedPokemon.create(
-                team_id=auth().team(league).id,
-                queue_id=Request.input('pokemon'),
-                league_id=league.id
+                team_id=auth().team(self.league).id,
+                queue_id=self.request.input('pokemon'),
+                league_id=self.league.id
             )
-            return Request.redirect('/league/@id/draft') \
+            return self.request.redirect_to('league.draft', {'id': self.league.id}) \
                 .session.flash('success', 'Queue Successful')
-
-        return Request.redirect('/league/@id/draft?message=Could not draft at this time')
+        
+        self.request.session.flash('warning', 'Could not draft at this time')
+        return self.request.redirect_to('league.draft', {'id': self.league.id})
 
     def status(self):
         league = League.find(request().param('id'))

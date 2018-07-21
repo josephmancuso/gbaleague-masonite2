@@ -1,0 +1,37 @@
+{% extends 'nav/base.html' %} {% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">Account</div>
+                <div class="panel-body">
+                    <ul class="nav nav-pills nav-stacked">
+                        <!-- <li role="presentation" class="{{ show_if('active', request().is_named_route('settings.show')) }}">
+                            <a href="{{ route('settings.show') }}">Details</a>
+                        </li> -->
+                        <li role="presentation" class="{{ show_if('active', request().is_named_route('settings.leagues')) }}">
+                            <a href="{{ route('settings.leagues') }}">My Leagues</a>
+                        </li>
+                        <li role="presentation" class="{{ show_if('active', request().is_named_route('settings.teams')) }}">
+                            <a href="{{ route('settings.teams') }}">My Teams</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">Billing</div>
+                <div class="panel-body">
+                    <ul class="nav nav-pills nav-stacked">
+                        <li role="presentation" class="{{ show_if('active', request().is_named_route('settings.plans')) }}">
+                            <a href="{{ route('settings.plans') }}">Subscriptions</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-8">
+            {% block settings_content %}{% endblock %}
+        </div>
+    </div>
+</div>
+{% endblock %}

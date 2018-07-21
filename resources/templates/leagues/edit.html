@@ -13,7 +13,46 @@
             </div>
         </form>
     </div>
+</div>
 
-
+<div class="panel panel-default">
+    <div class="panel-heading">Teams</div>
+    <div class="panel-body">
+        {% for chunk in league.get_teams().chunk(3) %}
+            <div class="row">
+                {% for team in chunk %}
+                <div class="col-xs-12 col-sm-6 col-md-4">
+                    <div class="text-center">
+                        <img src="/logos/{{ team.picture }}" style="height: 200px" alt="team logo" onError="this.onerror=null;this.src='/static/logos/noimage.jpg';"
+                            class="">
+                    </div>
+            
+                    <div class="text-center">
+                        <h2>{{ team.name }}</h2>
+                        <h4>Points {{ team.points }}</h4>
+                    </div>
+            
+                    <div class="text-center">
+                        <form action="{{ route('league.team.remove', {'id': league.id}) }}" method="POST">
+                            {{ csrf_field|safe }} {{ back(request().path)|safe }}
+                            <input type="hidden" value="{{ team.id }}" name="team">
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-danger">Remove Team</button>
+                            </div>
+                        </form>
+                    </div>
+            
+                    <hr>
+            
+                    <h3 class="text-center">Pokemon</h3>
+            
+                    {% for drafted in team.get_team_pokemon(league) %}
+                    <h4>{{ drafted.pokemon.name }}</h4>
+                    {% endfor %}
+                </div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
 </div>
 {% endblock %}

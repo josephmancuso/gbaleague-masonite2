@@ -3,6 +3,7 @@
 from config.database import Model
 from app.Team import Team
 from app.DraftedPokemon import DraftedPokemon
+from app.League import League
 from app.Requests import Requests as LeagueRequest
 from billing.models.Billable import Billable
 
@@ -43,6 +44,10 @@ class User(Model, Billable):
     def get_all_teams(self):
         return Team.where('owner_id', self.id).get()
 
+    def get_all_leagues(self):
+        league_id_collection = Team.where('owner_id', self.id).where_not_null('league_id').get().pluck('league_id')
+        return League.where_in('id', league_id_collection).get()
+
     def has_pending_request(self, league):
         if LeagueRequest.where_in('team_id', self.get_all_teams().pluck('id')).count():
             return True
@@ -50,6 +55,9 @@ class User(Model, Billable):
         return False
 
     def is_league_owner(self, league):
+        print(league.owner_id, self.id)
+        print(type(league.owner_id), type(self.id))
+        print(league.owner_id == self.id)
         return league.owner_id == self.id
     
     def in_league(self, league):

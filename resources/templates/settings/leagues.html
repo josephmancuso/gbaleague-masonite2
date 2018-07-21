@@ -1,0 +1,24 @@
+{% extends 'settings/base.html' %}
+
+{% block settings_content %}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        My Leagues
+    </div>
+    <div class="panel-body">
+
+        {% for league in auth().get_all_leagues() %}
+            <div class="row">
+                <div class="col-xs-12 col-sm-10">
+                    {{ league.name }}
+                </div>
+                
+                <div class="col-xs-12 col-sm-2">
+                    <a href="{{ route('league.id', {'id': league.id}) }}" class="btn btn-success">View</a>
+                </div>
+            </div>
+            <hr>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

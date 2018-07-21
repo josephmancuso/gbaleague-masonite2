@@ -5,6 +5,7 @@ from orator.orm import belongs_to
 class Schedule(Model):
 
     __fillable__ = ['league_id', 'team1_id', 'team2_id', 'winner_id', 'scheduled_for']
+    __dates__ = ['scheduled_for']
 
     @belongs_to('team1_id', 'id')
     def team1(self):

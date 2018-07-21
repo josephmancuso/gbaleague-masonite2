@@ -10,13 +10,20 @@ class UserModelProvider(ServiceProvider):
 
     def register(self):
         ''' Registers The User Into The Service Container '''
-        self.app.bind('User', User)
-
-    def boot(self):
         pass
 
-class UserSubscribed:
-
-    def handle(self):
-        pass
-
+    def boot(self, ViewClass):
+        ViewClass.share({
+            'show_if': self._show_if
+        })
+    
+    @staticmethod
+    def _show_if(output, check1, check2=False):
+        print(check1)
+        if check2:
+            if check1 == check2:
+                return output
+        else:
+            if check1:
+                return output
+        return ''
