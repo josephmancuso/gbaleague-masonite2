@@ -39,13 +39,12 @@
                                 <li>
                                     <a href="{{ route('league.edit', {'id': league.id}) }}">Edit</a>
                                 </li>
-                                {% if not league.owner.is_subscribed() %}
+                                {% if league.owner.is_subscribed() %}
                                 <li>
                                     <a href="/league/{{ league.id }}/apps">App Integrations</a>
                                 </li>
                                 {% else %}
                                 <li>
-                                    
                                     <a href="{{ route('settings.plans') }}">
                                         <span class="fa fa-lock" style="color: #f1c40f"></span>
                                         App Integrations
