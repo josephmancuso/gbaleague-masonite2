@@ -6,8 +6,13 @@
         Update Subscription
     </div>
     <div class="panel-body">
-        {% if auth() and auth().is_subscribed() %}
-        <div>
+        {% if auth().is_canceled() %}
+        <div class="alert alert-warning">
+            You have canceled your subscription but can still enjoy the awesomeness of being a subscriber until the end of the billing cycle. 
+            You may resume your subscription at any time before the billing cycle is over to prevent a lapse in your benefits.
+        </div>
+        {% elif auth().is_subscribed() %}
+        <div class="alert alert-info">
             You are currently subscribed to the {{ auth().plan() }} Plan
         </div>
         <br> {% endif %}
@@ -19,12 +24,23 @@
                 {% if not auth().is_subscribed() %}
                 <form action="/leaguepass" method="POST">
                     {{ csrf_field|safe }}
-                    <input type="hidden" name="plan" value="masonite-test">
-                    <input type="hidden" name="token" value="tok_amex">
+                    {{ back(request().path)|safe }}
+                    <input type="hidden" name="plan" value="gba-premium">
                     <button type="submit" class="btn btn-success">Subscribe</button>
+                    <div class="hidden">
+                        <script src="https://checkout.stripe.com/checkout.js" class="stripe-button" data-key="{{ env('STRIPE_CLIENT') }}" data-amount="499"
+                            data-name="GBALeague.com" data-description="Widget" data-image="/static/logos/discord.png"
+                            data-locale="auto" data-zip-code="true">
+                            </script>
+                    </div>
                 </form>
+                {% elif auth().is_canceled() %}
+                    <form action="{{ route('premium.resume') }}" method="POST">
+                        {{ csrf_field|safe }}
+                        <button type="submit" class="btn btn-primary">Resume</button>
+                    </form>
                 {% else %}
-                    <form action="/leaguepass/cancel" method="POST">
+                    <form action="{{ route('premium.cancel') }}" method="POST">
                         {{ csrf_field|safe }}
                         <button type="submit" class="btn btn-danger">Unsubscribe</button>
                     </form>
@@ -34,7 +50,6 @@
         <div class="row">
             <div class="col-xs-12">
                 The GBA League pass will:
-                
                 <ul>
                     <li>Gain you access to connecting your discord guild for real time notifications</li>
                     <li>Allow you to join unlimited leagues</li>

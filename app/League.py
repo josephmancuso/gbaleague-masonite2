@@ -5,6 +5,7 @@ from orator.orm import belongs_to, has_many
 
 from app.Schedule import Schedule
 from app.Team import Team
+from app.Discord import Discord
 
 from config import database
 from config.database import Model
@@ -31,6 +32,10 @@ class League(Model):
             return 'Open'
 
         return 'Unknown'
+
+    def is_drafting(self):
+        print('is drafting', self.draft_status())
+        return self.status == 1
 
     def draftable_pokemon(self, tier=None):
         id_collection = database.DB.table('draftedpokemon').where_not_null('pokemon_id').get().pluck('pokemon_id')
@@ -105,13 +110,19 @@ class League(Model):
         self.save()
 
     def broadcast(self, message):
-        if self.slackwebhook:
-            requests.post(self.slackwebhook, json={'text': message})
+        channels = Discord.where('league_id', self.id).get()
+        print('broadcasting: ', message)
+        headers = {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        }
+        for channel in channels:
+            print('https://discordapp.com/api/webhooks/{}/{}'.format(channel.channel_id, channel.token))
+            requests.post('https://discordapp.com/api/webhooks/{}/{}'.format(channel.channel_id, channel.token), data={'content': message, 'username': 'GBALeague.com'}, headers=headers)
 
-        if self.discordid:
-            requests.post('https://discordapp.com/api/webhooks/{0}/{1}'.format(self.discordid, self.discordtoken), json={'content': message, 'username': 'GBALeague.com'})
+    def get_discord(self):
+        return Discord.where('league_id', self.id).first()
 
-    @has_many
-    def buff_breakers(self):
-        from app.Team import Team
-        return Team.order_by('id', 'name').distinct()
+    def has_discord(self):
+        if self.get_discord():
+            return True
+        return False

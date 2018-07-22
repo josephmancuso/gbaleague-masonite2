@@ -28,7 +28,7 @@ class WelcomeController:
             leagues = League.all().filter(lambda league: self.request.input(
                 'search').lower() in league.name.lower())
         else:
-            leagues = League.all()
+            leagues = League.all().take(100)
 
         return self.view.render('discover', {'leagues': leagues})
 

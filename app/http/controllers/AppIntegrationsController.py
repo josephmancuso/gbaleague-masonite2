@@ -1,6 +1,9 @@
 ''' A Module Description '''
 from app.League import League
+from app.Discord import Discord
+from app.integrations.IntegrationDiscordDriver import IntegrationDiscordDriver
 import requests
+import pendulum
 
 class AppIntegrationsController:
     ''' Class Docstring Description '''
@@ -29,23 +32,36 @@ class AppIntegrationsController:
 
         return request().redirect('http://localhost:8000/league/{0}/apps'.format(league.id))
 
-    def discord_send(self, IntegrationManager):
-        return IntegrationManager.driver('discord').scopes('webhook.incoming').state(request().param('id')).redirect()
+    def send(self, Request):
+        league = League.find(Request.param('league'))
+        return IntegrationDiscordDriver().send(Request, state=league.id, scopes=('webhook.incoming',))
 
-    def discord_return(self, IntegrationManager):
-        response = IntegrationManager.driver('discord').user()
+    def get(self, Request):
+        response = IntegrationDiscordDriver().user(Request)
 
-        channel_id = response['webhook']['channel_id']
-        token = response['webhook']['token']
-        d_id = response['webhook']['id']
+        league = League.find(Request.input('state'))
+        discord = Discord.where('league_id', league.id).first()
 
-        league = League.find(request().input('state'))
+        if not discord:
+            Discord.create(
+                access_token= response['access_token'],
+                refresh_token = response['refresh_token'],
+                scopes = response['scope'],
+                expires_at = pendulum.now().add(seconds=response['expires_in']).to_datetime_string(),
+                league_id=Request.input('state'),
+                channel_id = response['webhook']['id'],
+                token=response['webhook']['token']
+            )
+        else:
+            discord.access_token = response['access_token']
+            discord.refresh_token = response['refresh_token']
+            discord.scopes = response['scope']
+            discord.expires_at = pendulum.now().add(seconds=response['expires_in']).to_datetime_string()
+            discord.channel_id = response['webhook']['id']
+            discord.token = response['webhook']['token']
+            discord.save()
 
-        league.discordid = d_id
-        league.discordtoken = token
-        league.discordchannel = channel_id
-        league.save()
-
+        league = League.find(Request.input('state'))
         league.broadcast('Successfully integrated Discord with GBALeague.com')
-        return request().redirect('http://localhost:8000/league/{0}/apps'.format(league.id))
 
+        return request().redirect('http://localhost:8000/league/{0}/apps'.format(Request.input('state')))

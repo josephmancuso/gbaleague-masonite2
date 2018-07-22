@@ -9,6 +9,7 @@
             <a href="{{ route('create.teams') }}?back={{ route('league.join', {'id': league.id}) }}">
                 <div class="btn btn-success">
                     <span class="fa fa-plus"></span> Create A Team</div>
+                    <hr>
             </a>
             
         </div>
@@ -56,6 +57,12 @@
                 </div>
             {% endfor %}
             </div>
+        {% else %}
+        <div class="row">
+            <div class="col-xs-12">
+                <h3 class="text-center">No Teams</h3>
+            </div>
+        </div>
         {% endfor %}
     </div>
 </div>

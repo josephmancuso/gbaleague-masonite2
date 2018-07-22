@@ -5,7 +5,7 @@
     <div class="container-fluid">
         {% if auth() and auth().is_league_owner(league) and not league.get_teams().count() %}
             <div class="alert alert-warning">
-                There are no members in this league. If you would like to join it then use the join tab in the league navigation menu and then accept your team using the Requests tab.
+                There are no members in this league. Not even you. If you would like to join it then use the join tab in the league navigation menu and then accept one of your own teams using the Requests tab.
             </div>
         {% endif %}
         <div class="row">
@@ -39,17 +39,18 @@
                                 <li>
                                     <a href="{{ route('league.edit', {'id': league.id}) }}">Edit</a>
                                 </li>
-                                
+                                {% if league.owner.is_subscribed() %}
                                 <li>
                                     <a href="/league/{{ league.id }}/apps">App Integrations</a>
                                 </li>
+                                {% endif %}
                                 <hr>
                                 <li><h4>Danger Zone</h4></li>
                                 <li>
                                     <form action="{{ route('league.delete', {'id': league.id}) }}" method="POST">
                                         {{ csrf_field|safe }}
                                         <button type="submit" class="btn btn-danger">
-                                            Delete
+                                            Delete League
                                         </button>
                                     </form>
                                     

@@ -39,6 +39,8 @@ class RequestController:
             ## delete the request
             Requests.find(request().input('request_id')).delete()
 
+            league.broadcast('{} has joined the league!'.format(team.owner.name))
+
             return request() \
                 .redirect( '/league/@id/requests', {'id': league.id}) \
                 .session.flash('success', 'Accepted request')

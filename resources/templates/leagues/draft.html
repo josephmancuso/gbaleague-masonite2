@@ -2,7 +2,7 @@
 
 
 {% block league_content_left %}
-{% if auth() and auth().in_league(league) %}
+{% if auth() and auth().in_league(league) and league.is_drafting() %}
 <div class="panel panel-default">
     <div class="panel-heading">My Queued Pokemon</div>
     <div class="panel-body">
@@ -33,7 +33,7 @@
 {% endif %}
 
 
-{% if auth() and auth().in_league(league) %}
+{% if auth() and auth().in_league(league) and league.is_drafting() %}
 <div class="panel panel-success">
     <div class="panel-heading">My Team</div>
     <div class="panel-body">
@@ -114,20 +114,28 @@
             <div class="row">
                 {% for pokemon in chunk %}
                     <div class="col-xs-12 col-md-4 text-center">
-                        <div>{{ pokemon.name }}</div>
+                        <div>{{ pokemon.name }} - {{ pokemon.points }} points</div>
                     
                         <div>
                             {% if auth() and auth().in_league(league) %}
                             <form action="/league/{{ league.id}}/draft" method="POST">
                                 {{ csrf_field|safe }}
-                                <input type="hidden" name="pokemon" value="{{ pokemon.id }}"> {% if auth().id == league.current_id %}
-                                <button type="submit" name="draft" class="btn btn-primary">Draft</button>
+                                <input type="hidden" name="pokemon" value="{{ pokemon.id }}"> 
+                                {% if auth().id == league.current_id and auth().team(league).points >= pokemon.points %}
+                                    <button type="submit" name="draft" class="btn btn-primary">Draft</button>
+                                
+                                {% elif auth().id == league.owner_id %}
+                                    <button type="submit" name="draft" class="btn btn-warning">Draft For User</button>
+                                {% elif auth().team(league).points < pokemon.points %}
+                                    <button name="draft" class="btn btn-default" disabled>Not Enough Points</button>
                                 {% else %}
-                                <button type="submit" name="draft" class="btn btn-default" disabled>Not Your Turn</button>
-                                {% endif %} {% if not pokemon.id in auth().queued_pokemon(league) %}
-                                <button type="submit" name="queue" class="btn btn-success">Queue</button>
+                                    <button name="draft" class="btn btn-default" disabled>Not Your Turn</button>
+                                {% endif %} 
+                                
+                                {% if not pokemon.id in auth().queued_pokemon(league) %}
+                                    <button type="submit" name="queue" class="btn btn-success">Queue</button>
                                 {% else %}
-                                <button type="submit" name="unqueue" class="btn btn-danger">Unqueue</button>
+                                    <button type="submit" name="unqueue" class="btn btn-danger">Unqueue</button>
                                 {% endif %}
                     
                             </form>
@@ -139,7 +147,7 @@
                             <div>It is not your turn to draft</div>
                             {% endif %} {% endif %}
                         </div>
-                    
+                        <hr>
                         <br>
                     </div>
                 {% endfor %}

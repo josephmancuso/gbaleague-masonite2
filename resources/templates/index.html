@@ -2,4 +2,53 @@
 
 {% block content %}
 {% include 'helpers/messages.html' %}
+<section>
+    <div class="row" style="margin-top: -20px">
+        <div class="col-xs-12">
+            <div class="overlay" style="background-color: black;">
+                <img src="/static/logos/banner.jpg" class="img-responsive" style="opacity: 0.2">
+                
+                <div style="position: absolute; top: 35%; left: 35%; color: white; text-align: center">
+                    <h1>Global Battle Association</h1>
+                    <a href="{{ route('discover') }}">
+                        <h4 class="btn btn-success">Discover</h4>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section>
+    <h2 class="text-center">Start Your Legacy</h2>
+    <div class="row text-center">
+        <div class="col-xs-12">
+            <div class="col-xs-12 col-sm-4">
+                <h1><i class="fas fa-users" style="color:#2980b9"></i></h1>
+                <h2>Create Leagues</h2>
+                <p>
+                    Add your friends or meet new friends, draft pokemon and schedule battles
+                </p>
+            </div>
+            <div class="col-xs-12 col-sm-4">
+                <h1>
+                    <i class="fab fa-discord" style="color: #7289da"></i>
+                </h1>
+                <h2>Connect Discord</h2>
+                <p>
+                    Premium members: Connect your discord guild and get notifications of events happening with your league
+                </p>
+            </div>
+            <div class="col-xs-12 col-sm-4">
+                <h1>
+                    <i class="fas fa-basketball-ball" style="color: #CF5300"></i>
+                </h1>
+                <h2>Manage Teams</h2>
+                <p>
+                    Create and manage your own teams with your own logos and crush all your opponents!
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
 {% endblock %}

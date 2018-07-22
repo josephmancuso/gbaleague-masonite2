@@ -6,28 +6,21 @@
     <div class="panel-heading">
         App Integrations
     </div>
-    <div class="panel-body">
-        {% if not league.slackwebhook %}
-            <a href="/integration/slack/{{ league.id }}">
-                <button class="btn btn-default">
-                    <img src="/static/logos/slack-button.svg">
+    <div class="panel-body"> 
+        {% if not league.has_discord() %}
+            <a href="{{ route('discord.send', {'league': league.id}) }}">
+                <button class="btn btn-default" style="font-size: bold">
+                    <h1>
+                        <i class="fab fa-discord" style="color: #7289da; font-size: 2em"></i>
+                    </h1>
+                    <p>Click to connect</p>
                 </button>
             </a>
         {% else %}
-            <button class="btn btn-success">
-                Slack Integrated
-            </button>
-        {% endif %}
-        
-        {% if not league.discordid %}
-            <a href="/integration/discord/{{ league.id }}">
-                <button class="btn btn-default">
-                    <img src="/static/logos/discord.png" width="50px">
-                </button>
-            </a>
-        {% else %}
-                <button class="btn btn-success">
-                    <img src="/static/logos/discord.png" width="50px">
+            <div class="alert alert-info">Discord is connected. You will receive events in your league such as draft picks, league requests and whose turn it is to draft.</div>
+                <button class="btn btn-success" style="font-size: bold">
+                    <h1><i class="fab fa-discord" style="color: #fff; font-size: 2em"></i></h1>
+                    Connected :)
                 </button>
         {% endif %}
     </div>

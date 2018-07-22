@@ -41,9 +41,11 @@ class DraftController:
             team.points -= pokemon.points
             team.save()
 
-            self.league.broadcast('{0} was drafted by {1}'.format(pokemon.name, team.name))
+            self.league.broadcast('{} was drafted by {} for {} points'.format(pokemon.name, team.name, pokemon.points))
 
             self.league.next_drafter()
+
+            self.league.broadcast("It is currently {}'s turn to draft.".format(team.owner.name))
 
             self.request.redirect_to('league.draft', {'id': self.league.id}) \
                 .session.flash('success', 'Successfully Drafted {0}'.format(pokemon.name))
@@ -74,7 +76,9 @@ class DraftController:
         league = League.find(request().param('id'))
         if request().has('draft-open'):
             league.start_draft()
+            league.broadcast('The draft has started!')
         elif request().has('draft-close'):
             league.close_draft()
+            league.broadcast('The draft is closed!')
 
         return request().redirect('/league/{0}/draft'.format(league.id))

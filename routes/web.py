@@ -56,9 +56,10 @@ ROUTES = [
     RouteGroup([
         get('', 'PremiumController@show'),
         post('', 'PremiumController@store'),
-        post('/swap', 'PremiumController@update'),
-        post('/cancel', 'PremiumController@delete'),
-    ], prefix="/leaguepass"),
+        post('/swap', 'PremiumController@update').name('swap'),
+        post('/cancel', 'PremiumController@delete').name('cancel'),
+        post('/resume', 'PremiumController@resume').name('resume'),
+    ], prefix="/leaguepass", name="premium."),
 
     # Settings
     RouteGroup([
@@ -73,10 +74,15 @@ ROUTES = [
         get('/login', 'LoginController@show').name('login'),
         get('/logout', 'LoginController@logout'),
         post('/login', 'LoginController@store'),
-        get('/register', 'RegisterController@show'),
+        get('/register', 'RegisterController@show').name('register'),
         post('/register', 'RegisterController@store'),
         get('/home', 'HomeController@show'),
     ]),
+
+    RouteGroup([
+        get('/integrations/discord/send/@league', 'AppIntegrationsController@send').name('send'),
+        get('/integrations/discord/get', 'AppIntegrationsController@get').name('get')
+    ], name="discord."),
 
     post('/add-team', 'RequestController@store'),
     post('/handle-team-request', 'RequestController@handle'),

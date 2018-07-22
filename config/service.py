@@ -1,3 +1,5 @@
+import os
+
 DRIVER = 'slack'
 
 DRIVERS = {
@@ -7,8 +9,8 @@ DRIVERS = {
         'redirect': 'http://90bebe00.ngrok.io/oauth/slack'
     },
     'discord': {
-        'client': '362339600925982721',
-        'secret': 'HZ5RT5h38scqgXaDBALu-BUs7oWPo-XV',
-        'redirect': 'http://90bebe00.ngrok.io/oauth/discord',
+        'client': os.getenv('DISCORD_CLIENT'),
+        'secret': os.getenv('DISCORD_SECRET'),
+        'redirect': os.getenv('DISCORD_REDIRECT'),
     }
 }

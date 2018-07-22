@@ -2,6 +2,7 @@
 from masonite.provider import ServiceProvider
 from app.User import User
 from masonite.request import Request
+import os
 
 class UserModelProvider(ServiceProvider):
     ''' Binds the User model into the Service Container '''
@@ -14,7 +15,8 @@ class UserModelProvider(ServiceProvider):
 
     def boot(self, ViewClass):
         ViewClass.share({
-            'show_if': self._show_if
+            'show_if': self._show_if,
+            'env': os.getenv
         })
     
     @staticmethod

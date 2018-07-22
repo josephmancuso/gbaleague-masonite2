@@ -1,0 +1,9 @@
+{% if session().has('validation') %}
+<div class="alert alert-danger">
+    <ul>
+        {% for key, value in json.loads(session().get('validation')).items() %}
+        <li>{{ value }}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}

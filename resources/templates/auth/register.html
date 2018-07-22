@@ -5,12 +5,13 @@
     <div class="panel panel-default">
         <div class="panel-heading">Register</div>
         <div class="panel-body">
+        {% include 'helpers/validation.html' %}
         <form action="/register" method="POST">
             {{ csrf_field|safe }}
 
             <div class="form-group">
                 <label for="">Username</label>
-                <input type="text" name="name" class="form-control">
+                <input type="text" name="username" class="form-control">
             </div>
 
             <div class="form-group">
