@@ -16,6 +16,7 @@ from app.providers.SentryServiceProvider import SentryServiceProvider
 from app.providers.UserModelProvider import UserModelProvider
 from app.providers.AppEventProvider import AppEventProvider
 from dashboard.providers import UserManagementProvider
+from masonite_heroku.providers import DeployProvider
 
 '''
 |--------------------------------------------------------------------------
@@ -57,6 +58,7 @@ PROVIDERS = [
     SentryServiceProvider,
     DashboardProvider,
     UserManagementProvider,
+    DeployProvider,
 
     # Application Providers
     UserModelProvider,
