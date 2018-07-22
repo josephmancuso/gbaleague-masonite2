@@ -73,6 +73,9 @@ ROUTES = [
     RouteGroup([
         get('/login', 'LoginController@show').name('login'),
         get('/logout', 'LoginController@logout'),
+        get('/forgot', 'ResetController@forgot').name('forgot.password'),
+        post('/reset/send', 'ResetController@send').name('reset.send'),
+        get('/reset/password', 'ResetController@reset').name('reset.password'),
         post('/login', 'LoginController@store'),
         get('/register', 'RegisterController@show').name('register'),
         post('/register', 'RegisterController@store'),

@@ -3,15 +3,22 @@ from masonite.facades.Auth import Auth
 from app.User import User
 import hashlib
 from masonite.helpers import password as bcrypt_password
+from app.validators.RegisterValidator import RegisterValidator
+import json
 
 class LoginController:
     ''' Login Form Controller '''
 
     def show(self, Request, Application):
         ''' Show the login page '''
-        return view('auth/login', {'app': Application, 'Auth': Auth(Request)})
+        return view('auth/login', {'app': Application, 'Auth': Auth(Request), 'json': json})
 
     def store(self, Request):
+        validate = RegisterValidator(Request).login()
+        if not validate.check():
+            Request.session.flash('validation', json.dumps(validate.errors()))
+            return Request.redirect_to('login')
+
         self.check_old_encryption(Request)
 
         if Auth(Request).login(Request.input('username'), Request.input('password')):

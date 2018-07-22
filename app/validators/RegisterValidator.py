@@ -16,3 +16,15 @@ class RegisterValidator(Validator):
             'email': [Required, Length(1), Not(In(users.pluck('email')))],
             'password': [Required]
         })
+
+    def login(self):
+        users = User.all()
+        self.messages({
+            'username': 'That email does not exist',
+            'password': 'You forgot to enter a password!',
+        })
+        
+        return self.validate({
+            'username': [Required, Length(1), In(users.pluck('email'))],
+            'password': [Required, Length(1)]
+        })
