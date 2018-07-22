@@ -13,7 +13,10 @@ class LeagueController:
     def __init__(self, league: League, view: View, request: Request):
         self.view = view
         self.request = request
-        self.league = league.find(self.request.param('id'))
+        if request.param('id'):
+            self.league = league.find(self.request.param('id'))
+        else:
+            self.league = None
 
     def show(self):
         league = self.league.find(self.request.param('id'))
