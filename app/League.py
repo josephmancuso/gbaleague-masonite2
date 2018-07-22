@@ -87,6 +87,13 @@ class League(Model):
         if int(self.current_id) == int(current_drafter):
             self.next_drafter()
 
+    def has_member_limit(self):
+        if self.owner.is_subscribed():
+            return False
+
+        if self.get_teams().count() >= 6:
+            return True
+
     def get_schedule(self):
         return Schedule.where('league_id', self.id).get()
 

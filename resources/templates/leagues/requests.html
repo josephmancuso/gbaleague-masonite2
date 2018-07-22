@@ -5,25 +5,27 @@
     <div class="panel-heading">Requests</div>
     <div class="panel-body">
         {% include 'helpers/messages.html' %}
-        {% for requests in league_requests %}
-            <div class="col-xs-9">
-                {{ requests.team.name }} owned by {{ requests.team.owner.name }}
-            </div>
-
-            <form action="/handle-team-request" method="POST">
-                {{ csrf_field|safe }}
-                <input type="hidden" value="{{ league.id }}" name="league_id">
-                <input type="hidden" value="{{ requests.team_id }}" name="team_id">
-                <input type="hidden" value="{{ requests.id }}" name="request_id">
-                <div class="col-xs-3">
-                    <button type="submit" class="btn btn-success" name="accept">Accept</button>
-                    <button type="submit" class="btn btn-danger" name="decline">Decline</button>
+        {% if not league.has_member_limit() %}
+            {% for requests in league_requests %}
+                <div class="col-xs-9">
+                    {{ requests.team.name }} owned by {{ requests.team.owner.name }}
                 </div>
-            </form>
-        {% endfor %}
 
-        {% if not league_requests %}
-            <h4 class="text-center">No Requests</h4>
+                <form action="/handle-team-request" method="POST">
+                    {{ csrf_field|safe }}
+                    <input type="hidden" value="{{ league.id }}" name="league_id">
+                    <input type="hidden" value="{{ requests.team_id }}" name="team_id">
+                    <input type="hidden" value="{{ requests.id }}" name="request_id">
+                    <div class="col-xs-3">
+                        <button type="submit" class="btn btn-success" name="accept">Accept</button>
+                        <button type="submit" class="btn btn-danger" name="decline">Decline</button>
+                    </div>
+                </form>
+            {% else %}
+                <h4 class="text-center">No Requests</h4>
+            {% endfor %}
+        {% else %}
+            <div class="alert alert-danger">You have reached your member limit of 6 teams</div>
         {% endif %}
     </div>
 </div>
