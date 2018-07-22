@@ -8,5 +8,4 @@ masonite-dashboard
 psycopg2-binary
 pyjwt
 raven
-slugify
-
+python-slugify
