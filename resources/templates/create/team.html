@@ -24,12 +24,22 @@
                             <label for="logo">Team Logo</label>
                             <input type="file" name="logo">
                         </div>
-                            
+
+                        {% if auth() and auth().can_create_teams() %}
                         <div class="form-group">
                             <button class="btn btn-success" type="submit" name="submit">Create Team</button>
                         </div>
-                         
-                        
+                        {% elif auth() and not auth().can_create_teams() %}
+                        <div class="form-group">
+                            <div class="alert alert-warning">
+                                You have exceed your limit of owning 5 teams. Consider becoming a member to have unlimited teams or delete some teams
+                                you currently own.
+                            </div>
+                            <a href="{{ route('settings.plans') }}" class="btn btn-default">Become a Member</a>
+                        </div>
+                        {% else %}
+                            <div>You need to login</div>
+                        {% endif %}
                     </form>
                 </div>
             </div>

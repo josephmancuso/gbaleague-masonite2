@@ -22,10 +22,17 @@
                             <textarea name="league-overview" class="form-control" cols="30" rows="10" placeholder="Quick league description"></textarea>
                         </div>
                         
-                        {% if auth() %}
-                                <div class="form-group">
-                                    <button class="btn btn-success" type="submit" name="submit">Create League</button>
+                        {% if auth() and auth().can_create_leagues() %}
+                            <div class="form-group">
+                                <button class="btn btn-success" type="submit" name="submit">Create League</button>
+                            </div>
+                        {% elif auth() and not auth().can_create_leagues() %}
+                            <div class="form-group">
+                                <div class="alert alert-warning">
+                                    You have exceed your limit of owning 3 leagues. Consider becoming a member to have unlimited leagues or delete some leagues you currently own.
                                 </div>
+                                <a href="{{ route('settings.plans') }}" class="btn btn-default">Become a Member</a>
+                            </div>
                         {% else %}
                             <div>You need to login</div>
                         {% endif %}

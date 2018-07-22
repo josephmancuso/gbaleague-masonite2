@@ -8,6 +8,11 @@
     <div class="panel-body">
 
         {% for league in auth().get_all_leagues() %}
+            {% if league.owner_id == auth().id %}
+            <div class="alert alert-info">
+                You own this league
+            </div>
+            {% endif %}
             <div class="row">
                 <div class="col-xs-12 col-sm-10">
                     {{ league.name }}

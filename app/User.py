@@ -59,6 +59,24 @@ class User(Model, Billable):
         print(type(league.owner_id), type(self.id))
         print(league.owner_id == self.id)
         return league.owner_id == self.id
-    
+
     def in_league(self, league):
         return Team.where('league_id', league.id).where('owner_id', self.id).get().count()
+
+    def can_create_leagues(self):
+        if self.is_subscribed():
+            return True
+
+        if League.where('owner_id', self.id).count() > 3:
+            return False
+
+        return True
+
+    def can_create_teams(self):
+        if self.is_subscribed():
+            return True
+
+        if Team.where('owner_id', self.id).count() > 5:
+            return False
+
+        return True
