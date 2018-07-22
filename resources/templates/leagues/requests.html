@@ -25,7 +25,11 @@
                 <h4 class="text-center">No Requests</h4>
             {% endfor %}
         {% else %}
-            <div class="alert alert-danger">You have reached your member limit of 6 teams</div>
+            <div class="alert alert-danger">You have reached your member limit of 6 teams. Consider becoming a memnber to have unlimited teams join.
+            </div>
+            <a href="{{ route('settings.plans') }}">
+                <span class="btn btn-default">Become a member</span>
+            </a>
         {% endif %}
     </div>
 </div>
