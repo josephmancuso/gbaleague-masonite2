@@ -4,7 +4,7 @@
         My Teams
     </div>
     <div class="panel-body">
-         {% for chunk in auth().get_all_teams().chunk(3) %}
+        {% for chunk in auth().get_all_teams().chunk(3) %}
         <div class="row">
             {% for team in chunk %}
             <div class="col-xs-12 col-sm-6 col-md-4">
@@ -27,6 +27,8 @@
             </div>
             {% endfor %}
         </div>
+        {% else %}
+        <h4>You do not have any teams</h4>
         {% endfor %}
     </div>
 </div>
