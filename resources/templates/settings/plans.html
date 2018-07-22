@@ -25,7 +25,7 @@
                 <form action="/leaguepass" method="POST">
                     {{ csrf_field|safe }}
                     {{ back(request().path)|safe }}
-                    <input type="hidden" name="plan" value="gba-premium">
+                    <input type="hidden" name="plan" value="{{ env('PLAN') }}">
                     <button type="submit" class="btn btn-success">Subscribe</button>
                     <div class="hidden">
                         <script src="https://checkout.stripe.com/checkout.js" class="stripe-button" data-key="{{ env('STRIPE_CLIENT') }}" data-amount="499"
