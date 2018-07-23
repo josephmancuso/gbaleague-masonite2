@@ -17,7 +17,6 @@ class RegisterValidator(Validator):
             'password': [Required]
         })
 
-
     def check_exists(self):
         users = User.all()
         self.messages({
@@ -29,14 +28,14 @@ class RegisterValidator(Validator):
         })
 
     def login(self):
+        print(self.request.request_variables)
         users = User.all()
-        self.request.request_variables['username'] = self.request.request_variables['username'].lower()
         self.messages({
             'username': 'That email does not exist',
             'password': 'You forgot to enter a password!',
         })
-        
+
         return self.validate({
-            'username': [Required, Length(1), Not(In(users.pluck('name').map(lambda item: item.lower())))],
+            'username': [Required, Length(1, 35), In(users.pluck('email').map(lambda item: item.lower()))],
             'password': [Required, Length(1)]
         })

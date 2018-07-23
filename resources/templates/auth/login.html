@@ -8,6 +8,7 @@
                 <div class="panel-heading">Login</div>
                 <div class="panel-body">
                 {% include 'helpers/validation.html' %}
+                {% include 'helpers/messages.html' %}
                 <form action="/login" method="POST">
                     {{ csrf_field|safe }}
 

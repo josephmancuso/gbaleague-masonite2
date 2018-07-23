@@ -16,14 +16,16 @@ class LoginController:
     def store(self, Request):
         validate = RegisterValidator(Request).login()
         if not validate.check():
+            print(validate.errors())
             Request.session.flash('validation', json.dumps(validate.errors()))
             return Request.redirect_to('login')
-
+        
         self.check_old_encryption(Request)
 
         if Auth(Request).login(Request.input('username'), Request.input('password')):
             Request.redirect_to('discover')
         else:
+            Request.session.flash('danger', 'Invalid username or password')
             Request.redirect_to('login')
         return 'check terminal'
 
