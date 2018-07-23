@@ -22,6 +22,8 @@ class RegisterController:
         """ Register a new user """
 
         validate = RegisterValidator(Request).register()
+        if validate.check():
+            validate.check_exists()
 
         if not validate.check():
             Request.session.flash('validation', json.dumps(validate.errors()))
