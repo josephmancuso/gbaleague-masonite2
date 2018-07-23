@@ -76,6 +76,7 @@ ROUTES = [
         get('/forgot', 'ResetController@forgot').name('forgot.password'),
         post('/reset/send', 'ResetController@send').name('reset.send'),
         get('/reset/password', 'ResetController@reset').name('reset.password'),
+        post('/reset/password', 'ResetController@password').name('reset.store'),
         post('/login', 'LoginController@store'),
         get('/register', 'RegisterController@show').name('register'),
         post('/register', 'RegisterController@store'),

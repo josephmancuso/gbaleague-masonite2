@@ -5,8 +5,9 @@
             <div class="panel-heading">Reset Password</div>
             <div class="panel-body">
                 {% include 'helpers/validation.html' %}
-                <form action="/login" method="POST">
+                <form action="{{ route('reset.store') }}" method="POST">
                     {{ csrf_field|safe }}
+                    <input type="hidden" name="v" value="{{ request().input('v') }}">
 
                     <div class="form-group">
                         <label for="">New Password</label>

@@ -7,8 +7,10 @@
             <div class="panel-heading">Request Password</div>
             <div class="panel-body">
                 {% include 'helpers/validation.html' %}
+                {% include 'helpers/messages.html' %}
                 <form action="{{ route('reset.send') }}" method="POST">
                     {{ csrf_field|safe }}
+                    {{ back(request().path)|safe }}
 
                     <div class="form-group">
                         <label for="">Email</label>
