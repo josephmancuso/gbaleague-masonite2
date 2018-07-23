@@ -37,6 +37,6 @@ class RegisterValidator(Validator):
         })
         
         return self.validate({
-            'username': [Required, Length(1), In(users.pluck('name').map(lambda item: item.lower()))],
+            'username': [Required, Length(1), Not(In(users.pluck('name').map(lambda item: item.lower())))],
             'password': [Required, Length(1)]
         })
