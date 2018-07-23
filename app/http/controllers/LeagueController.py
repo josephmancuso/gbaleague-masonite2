@@ -71,6 +71,11 @@ class LeagueController:
 
     def remove(self):
         team = Team.find(self.request.input('team'))
+
+        league = League.find(team.league_id)
+        if league.current_id == team.owner_id:
+            league.skip_user()
+
         team.league_id = None
         team.save()
 
