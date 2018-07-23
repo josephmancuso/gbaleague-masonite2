@@ -30,12 +30,13 @@ class ResetController:
         """ send reminder email """
         user = User.where('email', request().input('email')).first()
         if user:
-            user.remember_token = str(uuid.uuid4())
-            user.save()
+            if not user.remember_token:
+                user.remember_token = str(uuid.uuid4())
+                user.save()
 
             Mail.subject('GBALeague Password Reset').to(request().input('email')).template('email/request_password', {'user': user, 'site': os.getenv('SITE')}).send()
             request().session.flash('success', 'Email sent. Follow the instruction in the email to reset your password.')
         else:
             request().session.flash('error', 'No user found with that email address.')
-            
+
         return request().back()
