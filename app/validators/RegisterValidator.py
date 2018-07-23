@@ -3,7 +3,7 @@ from validator import Required, Pattern, In, Not, Length
 from app.User import User
 
 class RegisterValidator(Validator):
-    
+
     def register(self):
         users = User.all()
         self.messages({
