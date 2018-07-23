@@ -23,7 +23,8 @@ class ResetController:
         if user:
             user.remember_token = str(uuid.uuid4())
             user.save()
+            print('sending mail')
 
-            Mail.to(request().input('email')).template('email/request_password', {'user': user, 'site': os.getenv('SITE')}).send()
+            Mail.subject('GBALeague Password Reset').to(request().input('email')).template('email/request_password', {'user': user, 'site': os.getenv('SITE')}).send()
 
         return 'message sent'
