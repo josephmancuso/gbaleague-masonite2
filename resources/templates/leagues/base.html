@@ -56,9 +56,10 @@
                                 <li>
                                     <form action="{{ route('league.delete', {'id': league.id}) }}" method="POST">
                                         {{ csrf_field|safe }}
-                                        <button type="submit" class="btn btn-danger">
+                                        <div class="alert alert-danger">Deleting leagues is not yet implemented</div>
+                                        <!-- <button type="submit" class="btn btn-danger">
                                             Delete League
-                                        </button>
+                                        </button> -->
                                     </form>
                                     
                                 </li>
