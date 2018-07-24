@@ -107,7 +107,7 @@ class League(Model):
 
         self.draftorder = self.draftorder[:-1]
         if not self.current_id:
-            self.current_id = self.draftorder[0]
+            self.current_id = self.draftorder.split(',')[0]
 
         self.status = 1
         self.save()
