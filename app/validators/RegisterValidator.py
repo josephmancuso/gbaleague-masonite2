@@ -28,7 +28,6 @@ class RegisterValidator(Validator):
         })
 
     def login(self):
-        print(self.request.request_variables)
         users = User.all()
         self.messages({
             'username': 'That email does not exist',

@@ -34,7 +34,6 @@ class League(Model):
         return 'Unknown'
 
     def is_drafting(self):
-        print('is drafting', self.draft_status())
         return self.status == 1
 
     def draftable_pokemon(self, tier=None):
@@ -118,12 +117,10 @@ class League(Model):
 
     def broadcast(self, message):
         channels = Discord.where('league_id', self.id).get()
-        print('broadcasting: ', message)
         headers = {
             'Content-Type': 'application/x-www-form-urlencoded'
         }
         for channel in channels:
-            print('https://discordapp.com/api/webhooks/{}/{}'.format(channel.channel_id, channel.token))
             requests.post('https://discordapp.com/api/webhooks/{}/{}'.format(channel.channel_id, channel.token), data={'content': message, 'username': 'GBALeague.com'}, headers=headers)
 
     def get_discord(self):

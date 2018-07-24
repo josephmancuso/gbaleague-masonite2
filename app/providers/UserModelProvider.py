@@ -21,7 +21,6 @@ class UserModelProvider(ServiceProvider):
     
     @staticmethod
     def _show_if(output, check1, check2=False):
-        print(check1)
         if check2:
             if check1 == check2:
                 return output

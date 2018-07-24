@@ -16,7 +16,6 @@ class LoginController:
     def store(self, Request):
         validate = RegisterValidator(Request).login()
         if not validate.check():
-            print(validate.errors())
             Request.session.flash('validation', json.dumps(validate.errors()))
             return Request.redirect_to('login')
         

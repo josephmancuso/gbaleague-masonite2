@@ -55,9 +55,6 @@ class User(Model, Billable):
         return False
 
     def is_league_owner(self, league):
-        print(league.owner_id, self.id)
-        print(type(league.owner_id), type(self.id))
-        print(league.owner_id == self.id)
         return league.owner_id == self.id
 
     def in_league(self, league):
