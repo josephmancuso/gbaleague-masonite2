@@ -2,6 +2,7 @@
 from masonite.request import Request
 from masonite.view import View
 from slugify import slugify
+from app.helpers import generate_string
 
 from app.League import League
 from app.Team import Team
@@ -36,7 +37,7 @@ class LeagueController:
             name=self.request.input('league-name'),
             owner_id=self.request.user().id,
             description=self.request.input('league-overview'),
-            slug=slugify(self.request.input('league-name')),
+            slug=slugify(self.request.input('league-name')) + '-' + generate_string(4),
             current_id=None,
             draftorder=None,
         )
