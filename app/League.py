@@ -37,7 +37,7 @@ class League(Model):
         return self.status == 1
 
     def draftable_pokemon(self, tier=None):
-        id_collection = database.DB.table('draftedpokemon').where_not_null('pokemon_id').get().pluck('pokemon_id')
+        id_collection = database.DB.table('draftedpokemon').where('league_id', self.id).where_not_null('pokemon_id').get().pluck('pokemon_id')
         pokemon = database.DB.table(
             'pokemon').where_not_in('id', id_collection).order_by('name', 'asc')
 
