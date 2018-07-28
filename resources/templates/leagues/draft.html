@@ -125,8 +125,6 @@
                                     <button type="submit" name="draft" class="btn btn-primary">Draft</button>
                                 
                                 {% elif auth().id == league.owner_id and league.current.team(league).points >= pokemon.points %}
-                                    {{ league.current.team(league).points }}
-                                    {{ pokemon.points }}
                                     <button type="submit" name="draft" class="btn btn-warning">Draft For User</button>
                                 {% elif auth().team(league).points >= pokemon.points %}
                                     <button name="draft" class="btn btn-default" disabled>Not Enough Points</button>
