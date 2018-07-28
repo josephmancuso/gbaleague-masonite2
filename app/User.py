@@ -49,7 +49,7 @@ class User(Model, Billable):
         return League.where_in('id', league_id_collection).get()
 
     def has_pending_request(self, league):
-        if LeagueRequest.where_in('team_id', self.get_all_teams().pluck('id')).count():
+        if LeagueRequest.where('league_id', league.id).where_in('team_id', self.get_all_teams().pluck('id')).count():
             return True
 
         return False
