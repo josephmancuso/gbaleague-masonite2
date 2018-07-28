@@ -124,10 +124,14 @@
                                 {% if auth().id == league.current_id and auth().team(league).points >= pokemon.points %}
                                     <button type="submit" name="draft" class="btn btn-primary">Draft</button>
                                 
-                                {% elif auth().id == league.owner_id %}
+                                {% elif auth().id == league.owner_id and league.current.team(league).points >= pokemon.points %}
+                                    {{ league.current.team(league).points }}
+                                    {{ pokemon.points }}
                                     <button type="submit" name="draft" class="btn btn-warning">Draft For User</button>
-                                {% elif auth().team(league).points < pokemon.points %}
+                                {% elif auth().team(league).points >= pokemon.points %}
                                     <button name="draft" class="btn btn-default" disabled>Not Enough Points</button>
+                                {% elif auth().team(league).points < pokemon.points and auth().id == league.owner_id %}
+                                    <button name="draft" class="btn btn-default" disabled>Not Enough Points For Team</button>
                                 {% else %}
                                     <button name="draft" class="btn btn-default" disabled>Not Your Turn</button>
                                 {% endif %} 
@@ -152,7 +156,8 @@
                     </div>
                 {% endfor %}
             </div>
-                
+            {% else %}
+            <h2 class="text-center">No Pokemon Left In Tier {{ tier }}</h2>
             {% endfor %}
         {% else %}
             <h3>Draft Closed</h3>
