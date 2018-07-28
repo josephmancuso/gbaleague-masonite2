@@ -8,7 +8,9 @@ class PremiumController:
     
     def store(self):
         # subscribe user
-        request().user().subscribe(request().input('plan'), request().input('stripeToken'))
+        # Prevent a user being double subscribed
+        if not request().user().is_subscribed():
+            request().user().subscribe(request().input('plan'), request().input('stripeToken'))
 
         # redirect back
         return request().back()
