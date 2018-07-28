@@ -16,23 +16,28 @@
         </div>
         </form>
 
-        {% for league in leagues %} 
-        <div class="col-xs-12 col-md-3">
-            <h3>{{ league.name }}</h3>
-            <div>Created By: {{ league.owner.name }}</div>
-            <div>Teams: {{ league.get_teams().count() }}</div>
-            <div>Draft Status: {{ league.draft_status() }}</div>
-            <a href="/league/{{ league.id }}" class="btn btn-success">
-                <span class="fa fa-eye"></span>
-                View
-            </a>
-        </div>
-        {% else %}
+        {% for league_chunk in leagues.chunk(4) %} 
         <div class="row">
-            <div class="col-xs-12">
-                <h3 class="text-center">No Leagues Found</h3>
+            {% for league in league_chunk %}
+            <div class="col-xs-3 col-md-3">
+                <h3>{{ league.name }}</h3>
+                <div>Created By: {{ league.owner.name }}</div>
+                <div>Teams: {{ league.get_teams().count() }}</div>
+                <div>Draft Status: {{ league.draft_status() }}</div>
+                <a href="/league/{{ league.id }}" class="btn btn-success">
+                    <span class="fa fa-eye"></span>
+                    View
+                </a>
             </div>
+            {% endfor %}
         </div>
+
+        {% else %}
+            <div class="row">
+                <div class="col-xs-12">
+                    <h3 class="text-center">No Leagues Found</h3>
+                </div>
+            </div>
         {% endfor %}
         
     </div>

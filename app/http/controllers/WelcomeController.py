@@ -25,10 +25,10 @@ class WelcomeController:
         """
 
         if self.request.input('search'):
-            leagues = League.all().filter(lambda league: self.request.input(
+            leagues = League.order_by('id', 'desc').get().filter(lambda league: self.request.input(
                 'search').lower() in league.name.lower())
         else:
-            leagues = League.all().take(100)
+            leagues = League.order_by('id', 'desc').get().take(100)
 
         return self.view.render('discover', {'leagues': leagues})
 
