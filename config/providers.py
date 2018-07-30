@@ -1,24 +1,19 @@
 """ Providers Configuration File """
 
-from masonite.providers import (
-    AppProvider, SessionProvider, RouteProvider,
-    StatusCodeProvider, StartResponseProvider,
-    SassProvider, WhitenoiseProvider, MailProvider,
-    UploadProvider, ViewProvider, HelpersProvider,
-    QueueProvider, BroadcastProvider, CacheProvider,
-    CsrfProvider,
-)
-
 from billing.providers import BillingProvider
-from dashboard.providers import DashboardProvider
-from app.providers.MiddlewareProvider import MiddlewareProvider
-from app.providers.SentryServiceProvider import SentryServiceProvider
-from app.providers.UserModelProvider import UserModelProvider
-from app.providers.AppEventProvider import AppEventProvider
-from dashboard.providers import UserManagementProvider
+from dashboard.providers import DashboardProvider, UserManagementProvider
+from masonite.providers import (AppProvider, BroadcastProvider, CacheProvider,
+                                CsrfProvider, HelpersProvider, MailProvider,
+                                QueueProvider, RouteProvider, SassProvider,
+                                SessionProvider, StartResponseProvider,
+                                StatusCodeProvider, UploadProvider,
+                                ViewProvider, WhitenoiseProvider)
 from masonite_heroku.providers import DeployProvider
 
-'''
+from app.providers import (MiddlewareProvider, SentryServiceProvider,
+                           UserModelProvider)
+
+"""
 |--------------------------------------------------------------------------
 | Providers List
 |--------------------------------------------------------------------------
@@ -28,8 +23,7 @@ from masonite_heroku.providers import DeployProvider
 | request is made depending on the provider. Take some time to can
 | learn more more about Service Providers in our documentation
 |
-'''
-
+"""
 
 PROVIDERS = [
     # Framework Providers
@@ -62,6 +56,5 @@ PROVIDERS = [
 
     # Application Providers
     UserModelProvider,
-    MiddlewareProvider,
-    AppEventProvider,
+    MiddlewareProvider
 ]

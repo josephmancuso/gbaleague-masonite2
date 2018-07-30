@@ -105,4 +105,4 @@ ROUTES = [
     management_routes(),
 ]
 
-ROUTES += DashboardRoutes()
+# ROUTES += DashboardRoutes()
