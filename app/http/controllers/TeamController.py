@@ -2,6 +2,7 @@
 
 from app.Team import Team
 
+
 class TeamController:
     ''' Class Docstring Description '''
 
@@ -28,5 +29,5 @@ class TeamController:
 
         if create_team:
             return request().back(default='create/team?message=Created Successfully')
-        
+
         return request().redirect('/create/team?message=Could Not Create Team')

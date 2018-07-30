@@ -1,7 +1,8 @@
 ''' A Module Description '''
 
-from app.DraftedPokemon import DraftedPokemon
 from masonite.request import Request
+
+from app.DraftedPokemon import DraftedPokemon
 from app.League import League
 from app.Pokemon import Pokemon
 from app.Team import Team

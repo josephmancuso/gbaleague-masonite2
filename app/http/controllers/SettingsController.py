@@ -2,6 +2,7 @@
 
 from masonite.view import View
 
+
 class SettingsController:
     """ Class Docstring Description """
 
@@ -11,7 +12,7 @@ class SettingsController:
     def show(self):
         """ Show the setting page """
         return self.view.render('settings/show')
-    
+
     def leagues(self):
         return self.view.render('settings/leagues')
 

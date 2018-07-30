@@ -1,9 +1,10 @@
 ''' A Module Description '''
 
-from app.Schedule import Schedule
-from app.League import League
-import datetime
 import pendulum
+
+from app.League import League
+from app.Schedule import Schedule
+
 
 class ScheduleController:
     ''' Class Docstring Description '''
@@ -15,7 +16,8 @@ class ScheduleController:
 
     def store(self):
         league = League.find(request().input('league_id'))
-        date = pendulum.from_format(request().input('scheduled_time'), '%m/%d/%Y')
+        date = pendulum.from_format(
+            request().input('scheduled_time'), '%m/%d/%Y')
 
         Schedule.create(
             league_id=league.id,

@@ -1,8 +1,11 @@
 ''' A Module Description '''
-from app.User import User
-import uuid
 import os
+import uuid
+
 from masonite.helpers import password as bcrypt_password
+
+from app.User import User
+
 
 class ResetController:
     ''' Class Docstring Description '''
@@ -25,7 +28,6 @@ class ResetController:
             user.save()
             return request().redirect_to('login')
 
-
     def send(self, Mail):
         """ send reminder email """
         user = User.where('email', request().input('email')).first()
@@ -34,8 +36,10 @@ class ResetController:
                 user.remember_token = str(uuid.uuid4())
                 user.save()
 
-            Mail.subject('GBALeague Password Reset').to(request().input('email')).template('email/request_password', {'user': user, 'site': os.getenv('SITE')}).send()
-            request().session.flash('success', 'Email sent. Follow the instruction in the email to reset your password.')
+            Mail.subject('GBALeague Password Reset').to(request().input('email')).template(
+                'email/request_password', {'user': user, 'site': os.getenv('SITE')}).send()
+            request().session.flash('success',
+                                    'Email sent. Follow the instruction in the email to reset your password.')
         else:
             request().session.flash('error', 'No user found with that email address.')
 

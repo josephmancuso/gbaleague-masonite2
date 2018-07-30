@@ -2,8 +2,8 @@
 from masonite.request import Request
 from masonite.view import View
 from slugify import slugify
-from app.helpers import generate_string
 
+from app.helpers import generate_string
 from app.League import League
 from app.Team import Team
 

@@ -1,9 +1,9 @@
 ''' A Module Description '''
 
-from app.Requests import Requests
 from app.League import League
-from app.Team import Team
 from app.notifications import NewMemberNotification
+from app.Requests import Requests
+from app.Team import Team
 
 
 class RequestController:

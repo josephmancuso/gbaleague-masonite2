@@ -2,6 +2,7 @@
 from masonite.facades.Auth import Auth
 from masonite.request import Request
 
+
 class HomeController:
     ''' Home Dashboard Controller '''
 

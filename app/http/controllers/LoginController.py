@@ -1,10 +1,13 @@
 ''' A Module Description '''
-from masonite.facades.Auth import Auth
-from app.User import User
 import hashlib
-from masonite.helpers import password as bcrypt_password
-from app.validators.RegisterValidator import RegisterValidator
 import json
+
+from masonite.facades.Auth import Auth
+from masonite.helpers import password as bcrypt_password
+
+from app.User import User
+from app.validators.RegisterValidator import RegisterValidator
+
 
 class LoginController:
     ''' Login Form Controller '''

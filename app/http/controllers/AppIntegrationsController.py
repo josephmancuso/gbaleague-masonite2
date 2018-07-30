@@ -1,9 +1,11 @@
 ''' A Module Description '''
-from app.League import League
+import pendulum
+import requests
+
 from app.Discord import Discord
 from app.integrations.IntegrationDiscordDriver import IntegrationDiscordDriver
-import requests
-import pendulum
+from app.League import League
+
 
 class AppIntegrationsController:
     ''' Class Docstring Description '''

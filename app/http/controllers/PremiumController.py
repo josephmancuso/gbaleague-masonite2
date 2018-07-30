@@ -1,11 +1,12 @@
 ''' A Module Description '''
 
+
 class PremiumController:
     ''' Class Docstring Description '''
 
     def show(self):
         return view('leaguepass')
-    
+
     def store(self):
         # subscribe user
         # Prevent a user being double subscribed
