@@ -9,3 +9,4 @@ psycopg2-binary
 pyjwt
 raven
 python-slugify
+masonite-notifications
