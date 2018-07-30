@@ -3,6 +3,8 @@
 from app.Requests import Requests
 from app.League import League
 from app.Team import Team
+from app.notifications import NewMemberNotification
+
 
 class RequestController:
     ''' Class Docstring Description '''
@@ -14,7 +16,7 @@ class RequestController:
 
         return view('leagues/requests', {'league': league, 'league_requests': requests})
 
-    def store(self):
+    def store(self, Notify):
         league = League.find(request().input('league'))
         Requests.create(
             team_id=request().input('team'),
@@ -23,7 +25,10 @@ class RequestController:
 
         team = Team.find(request().input('team'))
 
-        league.broadcast('{0} owned by {1} has requested to join your league'.format(team.name, team.owner.name))
+        league.broadcast('{0} owned by {1} has requested to join your league'.format(
+            team.name, team.owner.name))
+
+        Notify.mail(NewMemberNotification, to=league.owner.email)
 
         return request().redirect('/league/@id/join?message=Requests Successfully Submitted!', {'id': league.id})
 
@@ -31,25 +36,26 @@ class RequestController:
         league = League.find(request().input('league_id'))
 
         if request().has('accept'):
-            ## update team league_id
+            # update team league_id
             team = Team().find(request().input('team_id'))
             team.league_id = request().input('league_id')
             team.save()
 
-            ## delete the request
+            # delete the request
             Requests.find(request().input('request_id')).delete()
 
-            league.broadcast('{} has joined the league!'.format(team.owner.name))
+            league.broadcast(
+                '{} has joined the league!'.format(team.owner.name))
 
             return request() \
-                .redirect( '/league/@id/requests', {'id': league.id}) \
+                .redirect('/league/@id/requests', {'id': league.id}) \
                 .session.flash('success', 'Accepted request')
 
         elif request().has('decline'):
-            ## simply delete request
+            # simply delete request
             Requests.find(request().input('request_id')).delete()
             return request() \
                 .redirect('/league/@id/requests', {'id': league.id}) \
                 .session.flash('success', 'Declined request')
-        
+
         return request().redirect('/league/@id/requests?message=Unable to process request', {'id': league.id})

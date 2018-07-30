@@ -9,7 +9,7 @@ from masonite.providers import (AppProvider, BroadcastProvider, CacheProvider,
                                 StatusCodeProvider, UploadProvider,
                                 ViewProvider, WhitenoiseProvider)
 from masonite_heroku.providers import DeployProvider
-
+from notifications.providers import NotificationProvider
 from app.providers import (MiddlewareProvider, SentryServiceProvider,
                            UserModelProvider)
 
@@ -53,6 +53,7 @@ PROVIDERS = [
     DashboardProvider,
     UserManagementProvider,
     DeployProvider,
+    NotificationProvider,
 
     # Application Providers
     UserModelProvider,

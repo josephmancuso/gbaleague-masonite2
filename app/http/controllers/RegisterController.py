@@ -1,11 +1,12 @@
 """ A Module Description """
-from masonite.facades.Auth import Auth
-from config import auth
-import bcrypt
-from masonite.helpers import password as bcrypt_password
-from app.validators import RegisterValidator
 import json
-import hashlib
+
+from masonite.facades.Auth import Auth
+from masonite.helpers import password as bcrypt_password
+
+from app.notifications import WelcomeNotification
+from app.validators import RegisterValidator
+from config import auth
 
 
 class RegisterController:
@@ -18,7 +19,7 @@ class RegisterController:
         """ Show the registration page """
         return view('auth/register', {'app': Application, 'Auth': Auth(Request), 'json': json})
 
-    def store(self, Request):
+    def store(self, Request, Notify):
         """ Register a new user """
 
         validate = RegisterValidator(Request).register()
@@ -41,6 +42,7 @@ class RegisterController:
         # login the user
         # redirect to the homepage
         if Auth(Request).login(Request.input(auth.AUTH['model'].__auth__), Request.input('password')):
+            Notify.mail(WelcomeNotification, to=Request.input('email'))
             return Request.redirect('/home')
 
         return Request.redirect('/register')

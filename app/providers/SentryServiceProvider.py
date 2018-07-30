@@ -1,7 +1,8 @@
 ''' A SentryServiceProvider Service Provider '''
 from masonite.provider import ServiceProvider
 
-from ..helpers.SentryExceptionHook import SentryExceptionHook
+from app.helpers.SentryExceptionHook import SentryExceptionHook
+
 
 class SentryServiceProvider(ServiceProvider):
 
