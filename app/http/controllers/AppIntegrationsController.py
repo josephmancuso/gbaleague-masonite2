@@ -46,12 +46,12 @@ class AppIntegrationsController:
 
         if not discord:
             Discord.create(
-                access_token= response['access_token'],
-                refresh_token = response['refresh_token'],
-                scopes = response['scope'],
-                expires_at = pendulum.now().add(seconds=response['expires_in']).to_datetime_string(),
+                access_token=response['access_token'],
+                refresh_token=response['refresh_token'],
+                scopes=response['scope'],
+                expires_at=pendulum.now().add(seconds=response['expires_in']).to_datetime_string(),
                 league_id=Request.input('state'),
-                channel_id = response['webhook']['id'],
+                channel_id=response['webhook']['id'],
                 token=response['webhook']['token']
             )
         else:

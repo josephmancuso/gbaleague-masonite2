@@ -14,7 +14,6 @@ class DraftController:
     def __init__(self, request: Request):
         self.request = request
         self.league = League.find(request.param('id'))
-        pass
 
     def show(self):
         if self.request.has('tier'):
@@ -24,7 +23,7 @@ class DraftController:
 
         return view('leagues/draft', {'league': self.league, 'tier': tier})
 
-    def draft(self, Request):
+    def draft(self):
         if self.request.has('draft'):
             DraftedPokemon.create(
                 team_id=self.league.current.team(self.league).id,

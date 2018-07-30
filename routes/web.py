@@ -1,7 +1,6 @@
 ''' Web Routes '''
 from masonite.routes import Get, RouteGroup
 from masonite.helpers.routes import get, post
-from dashboard.routes import routes as DashboardRoutes
 from dashboard.routes import management_routes
 
 ROUTES = [

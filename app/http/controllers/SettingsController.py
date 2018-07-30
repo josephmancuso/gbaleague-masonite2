@@ -27,7 +27,6 @@ class SettingsController:
         pass
 
     def create(self):
-        """ """
         pass
 
     def store(self):

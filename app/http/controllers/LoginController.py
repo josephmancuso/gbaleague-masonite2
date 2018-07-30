@@ -21,7 +21,7 @@ class LoginController:
         if not validate.check():
             Request.session.flash('validation', json.dumps(validate.errors()))
             return Request.redirect_to('login')
-        
+
         self.check_old_encryption(Request)
 
         if Auth(Request).login(Request.input('username'), Request.input('password')):
@@ -36,7 +36,8 @@ class LoginController:
         return Request.redirect('/login')
 
     def check_old_encryption(self, request):
-        user = User.where('email', request.input('username')).where('password', hashlib.sha1(request.input('password').encode('utf-8')).hexdigest()).first()
+        user = User.where('email', request.input('username')).where('password', hashlib.sha1(
+            request.input('password').encode('utf-8')).hexdigest()).first()
         if user:
             # login successful
             user.password = bcrypt_password(request.input('password'))
