@@ -2,6 +2,7 @@
 from masonite.provider import ServiceProvider
 from app.User import User
 from masonite.request import Request
+from app.commands.ShareCommand import ShareCommand
 import os
 
 class UserModelProvider(ServiceProvider):
@@ -11,7 +12,7 @@ class UserModelProvider(ServiceProvider):
 
     def register(self):
         ''' Registers The User Into The Service Container '''
-        pass
+        self.app.bind('ShareCommand', ShareCommand())
 
     def boot(self, ViewClass):
         ViewClass.share({
