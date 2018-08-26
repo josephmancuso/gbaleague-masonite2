@@ -10,6 +10,7 @@ class LeagueOwner:
 
     def before(self):
         """ Run This Middleware Before The Route Executes """
+
         if self.request.user():
             if not League.where('owner_id', self.request.user().id).where('id', self.request.param('id')).first():
                 raise Exception('You are not the league owner.')
