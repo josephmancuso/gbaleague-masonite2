@@ -6,6 +6,8 @@ from app.helpers.SentryExceptionHook import SentryExceptionHook
 
 class SentryServiceProvider(ServiceProvider):
 
+    wsgi = False
+
     def register(self):
         if self.app.make('Application').DEBUG == 'False':
             self.app.bind('SentryExceptionHook', SentryExceptionHook())
