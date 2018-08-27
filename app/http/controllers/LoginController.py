@@ -1,6 +1,5 @@
 ''' A Module Description '''
 import hashlib
-import json
 
 from masonite.facades.Auth import Auth
 from masonite.helpers import password as bcrypt_password
@@ -14,12 +13,12 @@ class LoginController:
 
     def show(self, Request, Application):
         ''' Show the login page '''
-        return view('auth/login', {'app': Application, 'Auth': Auth(Request), 'json': json})
+        return view('auth/login', {'app': Application, 'Auth': Auth(Request)})
 
     def store(self, Request):
         validate = RegisterValidator(Request).login()
         if not validate.check():
-            Request.session.flash('validation', json.dumps(validate.errors()))
+            Request.session.flash('validation', validate.errors())
             return Request.redirect_to('login')
 
         self.check_old_encryption(Request)
