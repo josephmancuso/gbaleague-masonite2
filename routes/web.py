@@ -41,7 +41,7 @@ ROUTES = [
 
         # League App Integrations
         get('/@id/apps', 'AppIntegrationsController@show').name('apps'),
-    ], prefix="/league", name="league."),
+    ], prefix="/league", name="league.", middleware=('league.redirection',)),
 
     RouteGroup([
         get('/team', 'TeamController@show').name('teams'),

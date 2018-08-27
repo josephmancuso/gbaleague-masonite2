@@ -12,8 +12,9 @@
 '''
 
 HTTP_MIDDLEWARE = [
-    'app.http.middleware.LoadUserMiddleware.LoadUserMiddleware',
-    'app.http.middleware.CsrfMiddleware.CsrfMiddleware',
+    'app.http.middleware.LoadUserMiddleware',
+    'app.http.middleware.CsrfMiddleware',
+    'app.http.middleware.HtmlMinifyMiddleware',
 ]
 
 '''
@@ -32,6 +33,7 @@ HTTP_MIDDLEWARE = [
 '''
 
 ROUTE_MIDDLEWARE = {
-    'auth':  'app.http.middleware.AuthenticationMiddleware.AuthenticationMiddleware',
-    'league.owner':  'app.http.middleware.LeagueOwner.LeagueOwner',
+    'auth':  'app.http.middleware.AuthenticationMiddleware',
+    'league.owner':  'app.http.middleware.LeagueOwner',
+    'league.redirection':  'app.http.middleware.LeagueRedirectionMiddleware',
 }

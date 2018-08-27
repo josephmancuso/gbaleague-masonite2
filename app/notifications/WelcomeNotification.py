@@ -13,6 +13,5 @@ class WelcomeNotification(Notifiable, NexmoComponent):
             .line('If you have any questions be sure to reach out to us on Twitter @gbaleague_com')
 
     def text(self):
-        print('to text: ', self._to)
         return self.message('A New Member Joined Your League.') \
             .message('Sign back in to accept them!')

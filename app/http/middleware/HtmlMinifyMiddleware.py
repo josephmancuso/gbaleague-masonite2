@@ -13,3 +13,5 @@ class HtmlMinifyMiddleware:
                     self.request.app().make('Response')
                 )
             )
+        
+        self.request.header('Cache-Control', 'max-age=3600, must-revalidate', http_prefix=False)

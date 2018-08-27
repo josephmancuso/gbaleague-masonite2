@@ -3,3 +3,4 @@ from .CsrfMiddleware import CsrfMiddleware
 from .AuthenticationMiddleware import AuthenticationMiddleware
 from .LeagueOwner import LeagueOwner
 from .HtmlMinifyMiddleware import HtmlMinifyMiddleware
+from .LeagueRedirectionMiddleware import LeagueRedirectionMiddleware

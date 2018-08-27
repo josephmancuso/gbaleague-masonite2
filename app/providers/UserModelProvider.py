@@ -14,10 +14,11 @@ class UserModelProvider(ServiceProvider):
         ''' Registers The User Into The Service Container '''
         self.app.bind('ShareCommand', ShareCommand())
 
-    def boot(self, ViewClass):
+    def boot(self, ViewClass, Application):
         ViewClass.share({
             'show_if': self._show_if,
-            'env': os.getenv
+            'env': os.getenv,
+            'DEBUG': Application.DEBUG
         })
     
     @staticmethod
