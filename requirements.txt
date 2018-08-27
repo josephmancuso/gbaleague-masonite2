@@ -9,4 +9,5 @@ psycopg2-binary
 pyjwt
 raven
 python-slugify
+htmlmin
 masonite-notifications==0.0.3
