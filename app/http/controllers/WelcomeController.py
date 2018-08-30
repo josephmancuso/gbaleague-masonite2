@@ -1,6 +1,7 @@
 """ Welcome The User To Masonite """
 from masonite.request import Request
 from masonite.view import View
+from events import Event
 
 from app.League import League
 
@@ -12,9 +13,12 @@ class WelcomeController:
         self.view = view
         self.request = request
 
-    def show(self) -> View.render:
+    def show(self, event: Event) -> View.render:
         ''' Show Welcome Template '''
-
+        league = League.find(1)
+        print(league.get_connection().get_database_name())
+        print(league.name)
+        event.fire('user.signedup')
         return self.view.render('index')
 
     def discover(self) -> View.render:

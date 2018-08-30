@@ -12,6 +12,7 @@ from masonite_heroku.providers import DeployProvider
 from notifications.providers import NotificationProvider
 from app.providers import (MiddlewareProvider, SentryServiceProvider,
                            UserModelProvider)
+from events.providers import EventProvider
 
 """
 |--------------------------------------------------------------------------
@@ -54,6 +55,7 @@ PROVIDERS = [
     UserManagementProvider,
     DeployProvider,
     NotificationProvider,
+    EventProvider,
 
     # Application Providers
     UserModelProvider,

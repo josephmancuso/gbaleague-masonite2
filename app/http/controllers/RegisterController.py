@@ -42,7 +42,6 @@ class RegisterController:
         # login the user
         # redirect to the homepage
         if Auth(Request).login(Request.input(auth.AUTH['model'].__auth__), Request.input('password')):
-            Notify.mail(WelcomeNotification, to=Request.input('email'))
             return Request.redirect('/home')
 
         return Request.redirect('/register')

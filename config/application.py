@@ -88,4 +88,5 @@ STATIC_ROOT = os.path.join(BASE_DIRECTORY, 'storage')
 
 AUTOLOAD = [
     'app',
+    'app/providers'
 ]
