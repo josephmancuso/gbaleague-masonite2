@@ -15,10 +15,6 @@ class WelcomeController:
 
     def show(self, event: Event) -> View.render:
         ''' Show Welcome Template '''
-        league = League.find(1)
-        print(league.get_connection().get_database_name())
-        print(league.name)
-        event.fire('user.signedup')
         return self.view.render('index')
 
     def discover(self) -> View.render:
