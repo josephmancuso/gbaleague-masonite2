@@ -3,6 +3,7 @@ masonite==2.0.19
 gunicorn
 masonite_cli
 masonite_deploy==0.0.1
+masonite-events==1.0.0
 masonite-billing
 masonite-dashboard
 psycopg2-binary
