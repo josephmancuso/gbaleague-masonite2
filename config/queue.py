@@ -1,5 +1,7 @@
 ''' Queue Settings '''
 
+import os
+
 '''
 |--------------------------------------------------------------------------
 | Queue Driver
@@ -8,11 +10,11 @@
 | Queues are an excellent way to send intensive and time consuming tasks
 | into the background to improve performance of your application.
 |
-| Supported: 'async'
+| Supported: 'async', 'amqp'
 |
 '''
 
-DRIVER = 'async'
+DRIVER = os.getenv('QUEUE_DRIVER', 'async')
 
 '''
 |--------------------------------------------------------------------------
@@ -24,4 +26,12 @@ DRIVER = 'async'
 |
 '''
 
-DRIVERS = {}
+DRIVERS = {
+    'amqp': {
+        'username': os.getenv('QUEUE_USERNAME', 'guest'),
+        'password': os.getenv('QUEUE_PASSWORD', 'guest'),
+        'host': os.getenv('QUEUE_HOST', 'localhost'),
+        'port': os.getenv('QUEUE_PORT', '5672'),
+        'channel': os.getenv('QUEUE_CHANNEL', 'default'),
+    }
+}
