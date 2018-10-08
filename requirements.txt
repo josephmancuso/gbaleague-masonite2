@@ -11,4 +11,5 @@ pyjwt
 raven
 python-slugify
 htmlmin
+pika
 masonite-notifications==0.0.3
