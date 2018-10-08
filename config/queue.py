@@ -29,10 +29,12 @@ DRIVER = os.getenv('QUEUE_DRIVER', 'async')
 DRIVERS = {
     'amqp': {
         'username': os.getenv('QUEUE_USERNAME', 'guest'),
-        'vhost': os.getenv('QUEUE_VHOST', None),
+        'vhost': os.getenv('QUEUE_VHOST', 'vhost'),
         'password': os.getenv('QUEUE_PASSWORD', 'guest'),
         'host': os.getenv('QUEUE_HOST', 'localhost'),
         'port': os.getenv('QUEUE_PORT', '5672'),
         'channel': os.getenv('QUEUE_CHANNEL', 'default'),
     }
 }
+
+print(DRIVERS)
