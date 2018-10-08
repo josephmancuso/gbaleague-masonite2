@@ -7,6 +7,7 @@ from masonite.helpers import password as bcrypt_password
 from app.notifications import WelcomeNotification
 from app.validators import RegisterValidator
 from config import auth
+from app.jobs import WelcomeEmailJob
 
 
 class RegisterController:
@@ -19,7 +20,7 @@ class RegisterController:
         """ Show the registration page """
         return view('auth/register', {'app': Application, 'Auth': Auth(Request), 'json': json})
 
-    def store(self, Request, Notify):
+    def store(self, Request, Queue):
         """ Register a new user """
 
         validate = RegisterValidator(Request).register()
@@ -42,6 +43,7 @@ class RegisterController:
         # login the user
         # redirect to the homepage
         if Auth(Request).login(Request.input(auth.AUTH['model'].__auth__), Request.input('password')):
+            Queue.push(WelcomeEmailJob, args=[Request.input('email')])
             return Request.redirect('/home')
 
         return Request.redirect('/register')
