@@ -1,2 +1,2 @@
 web: gunicorn wsgi:application
-worker: craft queue:work &
+worker: craft queue:work
