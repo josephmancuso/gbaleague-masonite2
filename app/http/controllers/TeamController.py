@@ -9,6 +9,8 @@ class TeamController:
     def show(self):
         if request().has('back'):
             request().session.flash('back', request().input('back'))
+        
+        print('viewing??')
         return view('create/team')
 
     def store(self, Upload):

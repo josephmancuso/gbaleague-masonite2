@@ -1,5 +1,13 @@
 ''' Middleware Configuration Settings '''
 
+from app.http.middleware.LoadUserMiddleware import LoadUserMiddleware
+from app.http.middleware.CsrfMiddleware import CsrfMiddleware
+from app.http.middleware.HtmlMinifyMiddleware import HtmlMinifyMiddleware
+from app.http.middleware.AuthenticationMiddleware import AuthenticationMiddleware
+from app.http.middleware.LeagueOwner import LeagueOwner
+from app.http.middleware.LeagueRedirectionMiddleware import LeagueRedirectionMiddleware
+from masonite.middleware import ResponseMiddleware
+
 '''
 |--------------------------------------------------------------------------
 | HTTP Middleware
@@ -12,9 +20,10 @@
 '''
 
 HTTP_MIDDLEWARE = [
-    'app.http.middleware.LoadUserMiddleware',
-    'app.http.middleware.CsrfMiddleware',
-    'app.http.middleware.HtmlMinifyMiddleware',
+    LoadUserMiddleware,
+    CsrfMiddleware,
+    ResponseMiddleware,
+    HtmlMinifyMiddleware,
 ]
 
 '''
@@ -33,7 +42,7 @@ HTTP_MIDDLEWARE = [
 '''
 
 ROUTE_MIDDLEWARE = {
-    'auth':  'app.http.middleware.AuthenticationMiddleware',
-    'league.owner':  'app.http.middleware.LeagueOwner',
-    'league.redirection':  'app.http.middleware.LeagueRedirectionMiddleware',
+    'auth':  AuthenticationMiddleware,
+    'league.owner':  LeagueOwner,
+    'league.redirection':  LeagueRedirectionMiddleware,
 }

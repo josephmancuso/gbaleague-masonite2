@@ -15,6 +15,7 @@ class WelcomeController:
 
     def show(self, event: Event) -> View.render:
         ''' Show Welcome Template '''
+        return {'id': 1}
         return self.view.render('index')
 
     def discover(self) -> View.render:

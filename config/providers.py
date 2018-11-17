@@ -5,7 +5,7 @@ from dashboard.providers import DashboardProvider, UserManagementProvider
 from masonite.providers import (AppProvider, BroadcastProvider, CacheProvider,
                                 CsrfProvider, HelpersProvider, MailProvider,
                                 QueueProvider, RouteProvider, SassProvider,
-                                SessionProvider, StartResponseProvider,
+                                SessionProvider,
                                 StatusCodeProvider, UploadProvider,
                                 ViewProvider, WhitenoiseProvider)
 from masonite_heroku.providers import DeployProvider
@@ -32,7 +32,7 @@ PROVIDERS = [
     SessionProvider,
     RouteProvider,
     StatusCodeProvider,
-    StartResponseProvider,
+    # StartResponseProvider,
     WhitenoiseProvider,
     ViewProvider,
     HelpersProvider,
@@ -51,8 +51,8 @@ PROVIDERS = [
     # Third Party Providers
     BillingProvider,
     SentryServiceProvider,
-    DashboardProvider,
-    UserManagementProvider,
+    # DashboardProvider,
+    # UserManagementProvider,
     DeployProvider,
     NotificationProvider,
     EventProvider,

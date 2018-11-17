@@ -1,12 +1,13 @@
 """ League Owner Middleware """
 from app.League import League
+from masonite.request import Request
 
 class LeagueOwner:
     """ Middleware to check if the user is the owner of the league """
 
-    def __init__(self, Request):
+    def __init__(self, request: Request):
         """ Inject Any Dependencies From The Service Container """
-        self.request = Request
+        self.request = request
 
     def before(self):
         """ Run This Middleware Before The Route Executes """

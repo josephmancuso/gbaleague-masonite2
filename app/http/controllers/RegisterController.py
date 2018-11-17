@@ -1,7 +1,10 @@
 """ A Module Description """
 import json
 
-from masonite.facades.Auth import Auth
+from masonite.request import Request
+from masonite import Queue
+from config import application
+from masonite.auth import Auth
 from masonite.helpers import password as bcrypt_password
 
 from app.notifications import WelcomeNotification
@@ -13,37 +16,37 @@ from app.jobs import WelcomeEmailJob
 class RegisterController:
     """ Class Docstring Description """
 
-    def __init__(self):
-        pass
+    def __init__(self, request: Request):
+        self.request = request
 
-    def show(self, Request, Application):
+    def show(self):
         """ Show the registration page """
-        return view('auth/register', {'app': Application, 'Auth': Auth(Request), 'json': json})
+        return view('auth/register', {'app': application, 'Auth': Auth(self.request), 'json': json})
 
-    def store(self, Request, Queue):
+    def store(self, queue: Queue):
         """ Register a new user """
 
-        validate = RegisterValidator(Request).register()
+        validate = RegisterValidator(self.request).register()
         if validate.check():
             validate.check_exists()
 
         if not validate.check():
-            Request.session.flash('validation', json.dumps(validate.errors()))
-            return Request.redirect_to('register')
+            self.request.session.flash('validation', json.dumps(validate.errors()))
+            return self.request.redirect_to('register')
 
         # register the user
-        password = bcrypt_password(Request.input('password'))
+        password = bcrypt_password(self.request.input('password'))
 
         auth.AUTH['model'].create(
-            name=Request.input('username'),
+            name=self.request.input('username'),
             password=password,
-            email=Request.input('email'),
+            email=self.request.input('email'),
         )
 
         # login the user
         # redirect to the homepage
-        if Auth(Request).login(Request.input(auth.AUTH['model'].__auth__), Request.input('password')):
-            Queue.push(WelcomeEmailJob, args=[Request.input('email')])
-            return Request.redirect('/home')
+        if Auth(self.request).login(self.request.input(auth.AUTH['model'].__auth__), self.request.input('password')):
+            queue.push(WelcomeEmailJob, args=[self.request.input('email')])
+            return self.request.redirect('/home')
 
-        return Request.redirect('/register')
+        return self.request.redirect('/register')
