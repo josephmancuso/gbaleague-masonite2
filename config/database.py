@@ -1,6 +1,6 @@
 ''' Database Settings '''
 
-import os
+from masonite import env
 
 from dotenv import find_dotenv, load_dotenv
 from orator import DatabaseManager, Model
@@ -30,11 +30,11 @@ load_dotenv(find_dotenv())
 
 DATABASES = {
     'default': {
-        'driver': os.environ.get('DB_DRIVER'),
-        'host': os.environ.get('DB_HOST'),
-        'database': os.environ.get('DB_DATABASE'),
-        'user': os.environ.get('DB_USERNAME'),
-        'password': os.environ.get('DB_PASSWORD'),
+        'driver': env('DB_DRIVER'),
+        'host': env('DB_HOST'),
+        'database': env('DB_DATABASE'),
+        'user': env('DB_USERNAME'),
+        'password': env('DB_PASSWORD'),
         'prefix': ''
     }
 }

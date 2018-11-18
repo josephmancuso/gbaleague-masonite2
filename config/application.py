@@ -2,6 +2,8 @@
 
 import os
 
+from masonite import env
+
 '''
 |--------------------------------------------------------------------------
 | Application Name
@@ -26,7 +28,7 @@ NAME = 'Masonite 1.3'
 |
 '''
 
-DEBUG = os.getenv('APP_DEBUG', 'False')
+DEBUG = env('APP_DEBUG', 'False')
 
 '''
 |--------------------------------------------------------------------------
@@ -40,7 +42,7 @@ DEBUG = os.getenv('APP_DEBUG', 'False')
 |
 '''
 
-KEY = os.environ.get('KEY')
+KEY = env('KEY')
 
 '''
 |--------------------------------------------------------------------------

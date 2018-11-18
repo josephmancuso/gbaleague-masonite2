@@ -1,6 +1,6 @@
 ''' Storage Settings '''
 
-import os
+from masonite import env
 
 '''
 |--------------------------------------------------------------------------
@@ -14,7 +14,7 @@ import os
 |
 '''
 
-DRIVER = os.getenv('STORAGE_DRIVER', 'disk')
+DRIVER = env('STORAGE_DRIVER', 'disk')
 
 '''
 |--------------------------------------------------------------------------
@@ -30,9 +30,9 @@ DRIVERS = {
         'location': 'storage/uploads'
     },
     's3': {
-        'client': os.getenv('S3_CLIENT', 'AxJz...'),
-        'secret': os.getenv('S3_SECRET', 'HkZj...'),
-        'bucket': os.getenv('S3_BUCKET', 's3bucket'),
+        'client': env('S3_CLIENT', 'AxJz...'),
+        'secret': env('S3_SECRET', 'HkZj...'),
+        'bucket': env('S3_BUCKET', 's3bucket'),
     }
 }
 

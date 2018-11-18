@@ -1,11 +1,11 @@
-import os
+from masonite import env
 
 DRIVER = 'discord'
 
 DRIVERS = {
     'discord': {
-        'client': os.getenv('DISCORD_CLIENT'),
-        'secret': os.getenv('DISCORD_SECRET'),
-        'redirect': os.getenv('DISCORD_REDIRECT'),
+        'client': env('DISCORD_CLIENT'),
+        'secret': env('DISCORD_SECRET'),
+        'redirect': env('DISCORD_REDIRECT'),
     }
 }

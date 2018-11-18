@@ -1,6 +1,6 @@
 ''' Mail Settings '''
 
-import os
+from masonite import env
 
 '''
 |--------------------------------------------------------------------------
@@ -13,8 +13,8 @@ import os
 '''
 
 FROM = {
-    'address': os.getenv('MAIL_FROM_ADDRESS', 'hello@example.com'),
-    'name': os.getenv('MAIL_FROM_NAME', 'Masonite')
+    'address': env('MAIL_FROM_ADDRESS', 'hello@example.com'),
+    'name': env('MAIL_FROM_NAME', 'Masonite')
 }
 
 '''
@@ -29,7 +29,7 @@ FROM = {
 |
 '''
 
-DRIVER = os.getenv('MAIL_DRIVER', 'smtp')
+DRIVER = env('MAIL_DRIVER', 'smtp')
 
 '''
 |--------------------------------------------------------------------------
@@ -42,13 +42,13 @@ DRIVER = os.getenv('MAIL_DRIVER', 'smtp')
 
 DRIVERS = {
     'smtp': {
-        'host': os.getenv('MAIL_HOST', 'smtp.mailtrap.io'),
-        'port': os.getenv('MAIL_PORT', '465'),
-        'username': os.getenv('MAIL_USERNAME', 'username'),
-        'password': os.getenv('MAIL_PASSWORD', 'password'),
+        'host': env('MAIL_HOST', 'smtp.mailtrap.io'),
+        'port': env('MAIL_PORT', '465'),
+        'username': env('MAIL_USERNAME', 'username'),
+        'password': env('MAIL_PASSWORD', 'password'),
     },
     'mailgun': {
-        'secret': os.getenv('MAILGUN_SECRET', 'key-XX'),
-        'domain': os.getenv('MAILGUN_DOMAIN', 'sandboxXX.mailgun.org')
+        'secret': env('MAILGUN_SECRET', 'key-XX'),
+        'domain': env('MAILGUN_DOMAIN', 'sandboxXX.mailgun.org')
     }
 }

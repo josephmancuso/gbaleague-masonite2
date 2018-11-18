@@ -1,6 +1,6 @@
 ''' Queue Settings '''
 
-import os
+from masonite import env
 
 '''
 |--------------------------------------------------------------------------
@@ -14,7 +14,7 @@ import os
 |
 '''
 
-DRIVER = os.getenv('QUEUE_DRIVER', 'async')
+DRIVER = env('QUEUE_DRIVER', 'async')
 
 '''
 |--------------------------------------------------------------------------
@@ -28,11 +28,11 @@ DRIVER = os.getenv('QUEUE_DRIVER', 'async')
 
 DRIVERS = {
     'amqp': {
-        'username': os.getenv('QUEUE_USERNAME', 'guest'),
-        'vhost': os.getenv('QUEUE_VHOST', None),
-        'password': os.getenv('QUEUE_PASSWORD', 'guest'),
-        'host': os.getenv('QUEUE_HOST', 'localhost'),
-        'port': os.getenv('QUEUE_PORT', None),
-        'channel': os.getenv('QUEUE_CHANNEL', 'default'),
+        'username': env('QUEUE_USERNAME', 'guest'),
+        'vhost': env('QUEUE_VHOST', None),
+        'password': env('QUEUE_PASSWORD', 'guest'),
+        'host': env('QUEUE_HOST', 'localhost'),
+        'port': env('QUEUE_PORT', None),
+        'channel': env('QUEUE_CHANNEL', 'default'),
     }
 }
