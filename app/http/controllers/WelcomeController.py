@@ -4,7 +4,7 @@ from masonite.view import View
 from events import Event
 
 from app.League import League
-
+from masonite import Broadcast
 
 class WelcomeController:
     """ Controller For Welcoming The User """
@@ -13,9 +13,10 @@ class WelcomeController:
         self.view = view
         self.request = request
 
-    def show(self, event: Event) -> View.render:
+    def show(self, event: Event, broadcast: Broadcast) -> View.render:
         ''' Show Welcome Template '''
-        return {'id': 1}
+        
+        broadcast.driver('local').channel('local', 'broacast this message!')
         return self.view.render('index')
 
     def discover(self) -> View.render:
