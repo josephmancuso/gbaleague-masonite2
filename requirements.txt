@@ -1,5 +1,5 @@
 waitress==1.1.0
-masonite==2.0.30
+masonite==2.1.0b3.post5
 gunicorn
 masonite_cli
 masonite_deploy==0.0.1
