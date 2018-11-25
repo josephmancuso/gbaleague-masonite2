@@ -7,6 +7,7 @@ from masonite.request import Request
 
 from app.commands.ShareCommand import ShareCommand
 from app.commands.BroadcastWorkCommand import BroadcastWorkCommand
+from app.commands.SeedTableCommand import SeedTableCommand
 from app.drivers.BroadcastLocalDriver import BroadcastLocalDriver
 from app.events import UserSignedUp
 from app.User import User
@@ -23,6 +24,7 @@ class UserModelProvider(ServiceProvider):
         ''' Registers The User Into The Service Container '''
         self.app.bind('ShareCommand', ShareCommand())
         self.app.bind('BroadcastWorkCommand', BroadcastWorkCommand())
+        self.app.bind('SeedTableCommand', SeedTableCommand())
         self.app.bind('BroadcastLocalDriver', BroadcastLocalDriver)
 
     def boot(self, view: View, event: Event):
