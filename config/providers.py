@@ -1,7 +1,7 @@
 """ Providers Configuration File """
 
 from billing.providers import BillingProvider
-from dashboard.providers import DashboardProvider, UserManagementProvider
+# from dashboard.providers import DashboardProvider, UserManagementProvider
 from masonite.providers import (AppProvider, BroadcastProvider, CacheProvider,
                                 CsrfProvider, HelpersProvider, MailProvider,
                                 QueueProvider, RouteProvider, SassProvider,

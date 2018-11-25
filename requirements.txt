@@ -5,7 +5,7 @@ masonite_cli
 masonite_deploy==0.0.1
 masonite-events==1.0.0
 masonite-billing
-masonite-dashboard
+# masonite-dashboard
 psycopg2-binary
 pyjwt
 raven
