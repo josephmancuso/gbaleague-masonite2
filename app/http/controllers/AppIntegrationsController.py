@@ -10,7 +10,8 @@ from masonite.request import Request
 
 class AppIntegrationsController:
     ''' Class Docstring Description '''
-    def __init__(self, request):
+
+    def __init__(self, request: Request):
         self.request = request
 
     def show(self):
@@ -19,6 +20,7 @@ class AppIntegrationsController:
         return view('leagues/apps', {'league': league})
 
     # def slack_send(self, IntegrationManager):
+    #     print(IntegrationManager)
     #     return IntegrationManager.driver('slack').scopes('incoming-webhook').state(self.request.param('id')).redirect()
 
     # def slack_return(self, IntegrationManager):
@@ -39,10 +41,10 @@ class AppIntegrationsController:
 
     def send(self):
         league = League.find(self.request.param('league'))
-        return IntegrationDiscordDriver().send(Request, state=league.id, scopes=('webhook.incoming',))
+        return IntegrationDiscordDriver().send(self.request, state=league.id, scopes=('webhook.incoming',))
 
     def get(self):
-        response = IntegrationDiscordDriver().user(Request)
+        response = IntegrationDiscordDriver().user(self.request)
 
         league = League.find(self.request.input('state'))
         discord = Discord.where('league_id', league.id).first()
