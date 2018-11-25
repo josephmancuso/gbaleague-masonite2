@@ -15,8 +15,6 @@ class WelcomeController:
 
     def show(self, event: Event, broadcast: Broadcast) -> View.render:
         ''' Show Welcome Template '''
-        
-        broadcast.driver('local').channel('local', 'broacast this message!')
         return self.view.render('index')
 
     def discover(self) -> View.render:
