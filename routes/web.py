@@ -101,7 +101,7 @@ ROUTES = [
 
     # Testing
     post('/stripe/webhook', '/billing.controllers.WebhookController@handle').domain('684b1285'),
-    management_routes(),
+    # management_routes(),
 ]
 
 # ROUTES += DashboardRoutes()
