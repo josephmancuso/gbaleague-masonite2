@@ -1,7 +1,7 @@
 waitress==1.1.0
 masonite==2.1.0b3.post5
 gunicorn
-masonite_cli
+masonite_cli>=2.1.0
 masonite_deploy==0.0.1
 masonite-events==1.0.0
 masonite-billing
@@ -12,4 +12,4 @@ raven
 python-slugify
 htmlmin
 pika
-masonite-notifications==0.0.3
+masonite-notifications>=1.0.0
