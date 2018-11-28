@@ -28,7 +28,7 @@ NAME = 'Masonite 1.3'
 |
 '''
 
-DEBUG = env('APP_DEBUG', 'False')
+DEBUG = env('APP_DEBUG', False)
 
 '''
 |--------------------------------------------------------------------------
