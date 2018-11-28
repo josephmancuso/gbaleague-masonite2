@@ -13,8 +13,13 @@ class LeagueRedirectionMiddleware:
     def before(self):
         """ Run This Middleware Before The Route Executes """
         if self.request.param('id'):
-            if not League.find(self.request.param('id')):
-                self.request.session.flash('warning', 'That League does not exist')
+            try:
+                if not League.find(self.request.param('id')):
+                    self.request.session.flash('warning', 'That league does not exist')
+                    self.request.redirect_to('discover')
+            except:
+                self.request.session.flash(
+                    'warning', 'That league no longer exists')
                 self.request.redirect_to('discover')
 
     def after(self):
