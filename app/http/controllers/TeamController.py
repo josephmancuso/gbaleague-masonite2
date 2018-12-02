@@ -1,7 +1,7 @@
 ''' A Module Description '''
 
 from app.Team import Team
-
+from masonite import Upload
 
 class TeamController:
     ''' Class Docstring Description '''
@@ -10,10 +10,9 @@ class TeamController:
         if request().has('back'):
             request().session.flash('back', request().input('back'))
         
-        print('viewing??')
         return view('create/team')
 
-    def store(self, Upload):
+    def store(self, upload: Upload):
         try:
             logo = request().input('logo').filename
         except AttributeError:
@@ -27,7 +26,7 @@ class TeamController:
 
         # upload logo
         if logo:
-            Upload.store(request().input('logo'))
+            upload.store(request().input('logo'))
 
         if create_team:
             return request().back(default='create/team?message=Created Successfully')
