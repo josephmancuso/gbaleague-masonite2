@@ -13,3 +13,4 @@ python-slugify
 htmlmin
 pika
 masonite-notifications>=1.0.0
+orator>=0.9.8
