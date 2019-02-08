@@ -47,8 +47,10 @@ class DraftController:
 
             self.league.broadcast("It is currently {}'s turn to draft.".format(team.owner.name))
 
-            self.request.redirect_to('league.draft', {'id': self.league.id}) \
-                .session.flash('success', 'Successfully Drafted {0}'.format(pokemon.name))
+            self.request.session.flash(
+                'success', 'Successfully Drafted {0}'.format(pokemon.name))
+            self.request.redirect_to('league.draft', {'id': self.league.id})
+                
 
         elif self.request.has('unqueue'):
             DraftedPokemon \
@@ -56,9 +58,9 @@ class DraftController:
                 .where('team_id', self.request.user()
                        .team(self.league).id).where('league_id', self.league.id) \
                 .first().delete()
-
-            return self.request.redirect_to('league.draft', {'id': self.league.id}) \
-                .session.flash('success', 'Successfully Unqueued')
+            self.request.session.flash('success', 'Successfully Unqueued')
+            return self.request.redirect_to('league.draft', {'id': self.league.id})
+                
 
         elif self.request.has('queue'):
             DraftedPokemon.create(
@@ -66,8 +68,8 @@ class DraftController:
                 queue_id=self.request.input('pokemon'),
                 league_id=self.league.id
             )
-            return self.request.redirect_to('league.draft', {'id': self.league.id}) \
-                .session.flash('success', 'Queue Successful')
+            self.request.session.flash('success', 'Queue Successful')
+            return self.request.redirect_to('league.draft', {'id': self.league.id}) 
         
         self.request.session.flash('warning', 'Could not draft at this time')
         return self.request.redirect_to('league.draft', {'id': self.league.id})
