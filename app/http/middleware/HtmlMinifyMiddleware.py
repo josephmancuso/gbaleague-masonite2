@@ -9,7 +9,7 @@ class HtmlMinifyMiddleware:
         self.response = response
 
     def after(self):
-        if 'text/html' in self.request.header('Content-Type') in self.request.header('Content-Type') and not self.request.header('Location'):
+        if 'text/html' in self.request.header('Content-Type') and not self.request.header('Location'):
             self.response.view(
                 htmlmin.minify(self.response.data())
             )
