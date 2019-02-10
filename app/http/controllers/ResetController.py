@@ -2,10 +2,11 @@
 import os
 import uuid
 
+from masonite import Mail, Queue
 from masonite.helpers import password as bcrypt_password
 
+from app.jobs import ResetEmail
 from app.User import User
-from masonite import Mail
 
 
 class ResetController:
@@ -29,16 +30,16 @@ class ResetController:
             user.save()
             return request().redirect_to('login')
 
-    def send(self, mail: Mail):
+    def send(self, mail: Mail, queue: Queue):
         """ send reminder email """
         user = User.where('email', request().input('email')).first()
         if user:
             if not user.remember_token:
                 user.remember_token = str(uuid.uuid4())
                 user.save()
+            
+            queue.push(ResetEmail, args=(user,))
 
-            mail.subject('GBALeague Password Reset').to(request().input('email')).template(
-                'email/request_password', {'user': user, 'site': os.getenv('SITE')}).send()
             request().session.flash('success',
                                     'Email sent. Follow the instruction in the email to reset your password.')
         else:
