@@ -1,5 +1,5 @@
 waitress==1.1.0
-https://github.com/masoniteframework/core/archive/master.zip 
+https://github.com/masoniteframework/core/archive/2.1.zip 
 gunicorn
 masonite_cli>=2.1.0
 masonite_deploy==0.0.1
