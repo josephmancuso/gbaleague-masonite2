@@ -23,7 +23,7 @@ HTTP_MIDDLEWARE = [
     LoadUserMiddleware,
     CsrfMiddleware,
     ResponseMiddleware,
-    HtmlMinifyMiddleware,
+    # HtmlMinifyMiddleware,
 ]
 
 '''
