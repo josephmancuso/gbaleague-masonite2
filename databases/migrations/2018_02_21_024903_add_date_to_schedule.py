@@ -8,7 +8,7 @@ class AddDateToSchedule(Migration):
         Run the migrations.
         """
         with self.schema.table('schedules') as table:
-            table.date('scheduled_for')
+            table.date('scheduled_for').nullable()
 
     def down(self):
         """

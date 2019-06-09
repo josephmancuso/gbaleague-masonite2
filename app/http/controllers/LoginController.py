@@ -7,7 +7,8 @@ from masonite.auth import Auth
 from masonite.helpers import password as bcrypt_password
 
 from app.User import User
-from app.validators.RegisterValidator import RegisterValidator
+# from app.validators.RegisterValidator import RegisterValidator
+from masonite.validation import Validator
 
 
 class LoginController:
@@ -16,27 +17,32 @@ class LoginController:
     def __init__(self, request: Request):
         self.request = request
 
-    def show(self):
+    def show(self, auth: Auth):
         ''' Show the login page '''
-        return view('auth/login', {'app': application, 'Auth': Auth(self.request)})
+        return view('auth/login', {'app': application, 'Auth': auth})
 
-    def store(self):
-        validate = RegisterValidator(self.request).login()
-        if not validate.check():
-            self.request.session.flash('validation', validate.errors())
-            return self.request.redirect_to('login')
+    def store(self, auth: Auth, validator: Validator):
+        errors = self.request.validate(
+            validator.required(['username', 'password']),
+            validator.length(['username', 'password'], min=1, max=35),
+            validator.is_in('username', User.all().pluck('email').map(lambda item: item.lower()), messages = {
+                'username': 'Username or password is incorrect'
+            })
+        )
+
+        if errors:
+            return self.request.redirect_to('login').with_errors(errors)
 
         self.check_old_encryption(self.request)
 
-        if Auth(self.request).login(self.request.input('username'), self.request.input('password')):
+        if auth.login(self.request.input('username'), self.request.input('password')):
             return self.request.redirect_to('discover')
         else:
             self.request.session.flash('danger', 'Invalid username or password')
             return self.request.redirect_to('login')
-        return 'check terminal'
 
-    def logout(self):
-        Auth(self.request).logout()
+    def logout(self, auth: Auth):
+        auth.logout()
         return self.request.redirect('/login')
 
     def check_old_encryption(self, request):

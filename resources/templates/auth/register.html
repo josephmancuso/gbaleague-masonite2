@@ -6,6 +6,15 @@
         <div class="panel-heading">Register</div>
         <div class="panel-body">
         {% include 'helpers/validation.html' %}
+        {% if session().has('errors') %}
+            <div class="alert alert-danger">
+                {% for _, messages in session().get('errors').items() %}
+                    {% for error in messages %}
+                        {{ error }}<br>
+                    {% endfor %}
+                {% endfor %}
+            </div>
+        {% endif %}
         <form action="/register" method="POST">
             {{ csrf_field|safe }}
 
