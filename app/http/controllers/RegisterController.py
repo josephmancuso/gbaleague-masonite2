@@ -8,9 +8,11 @@ from masonite.auth import Auth
 from masonite.helpers import password as bcrypt_password
 
 from app.notifications import WelcomeNotification
-from app.validators import RegisterValidator
+# from app.validators import RegisterValidator
 from config import auth
 from app.jobs import WelcomeEmailJob
+from masonite.validation import Validator
+from app.User import User
 
 
 class RegisterController:
@@ -19,33 +21,41 @@ class RegisterController:
     def __init__(self, request: Request):
         self.request = request
 
-    def show(self):
+    def show(self, auth: Auth):
         """ Show the registration page """
-        return view('auth/register', {'app': application, 'Auth': Auth(self.request), 'json': json})
+        return view('auth/register', {'app': application, 'Auth': auth, 'json': json})
 
-    def store(self, queue: Queue):
+    def store(self, auth: Auth, request: Request, queue: Queue, validator: Validator):
         """ Register a new user """
 
-        validate = RegisterValidator(self.request).register()
-        if validate.check():
-            validate.check_exists()
+        errors = request.validate(
+            validator.required(['username', 'email', 'password']),
+            validator.length('username', min=3, max=20),
+            validator.length('email', min=3),
+            validator.isnt(
+                validator.is_in('email', User.all().pluck('email'), messages = {
+                    'email': 'That email already exists'
+                }),
+            )
+        )
 
-        if not validate.check():
-            self.request.session.flash('validation', json.dumps(validate.errors()))
-            return self.request.redirect_to('register')
+        print(errors)
+
+        if errors:
+            return self.request.redirect_to('register').with_errors(errors)
 
         # register the user
         password = bcrypt_password(self.request.input('password'))
 
-        auth.AUTH['model'].create(
-            name=self.request.input('username'),
-            password=password,
-            email=self.request.input('email'),
-        )
+        auth.register({
+            'name': self.request.input('username'),
+            'password': self.request.input('password'),
+            'email': self.request.input('email'),
+        })
 
         # login the user
         # redirect to the homepage
-        if Auth(self.request).login(self.request.input(auth.AUTH['model'].__auth__), self.request.input('password')):
+        if auth.login(self.request.input('email'), self.request.input('password')):
             queue.push(WelcomeEmailJob, args=[self.request.input('email')])
             return self.request.redirect('/home')
 

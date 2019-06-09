@@ -13,6 +13,7 @@ from notifications.providers import NotificationProvider
 from app.providers import (MiddlewareProvider, SentryServiceProvider,
                            UserModelProvider)
 from events.providers import EventProvider
+from masonite.validation.providers import ValidationProvider
 
 """
 |--------------------------------------------------------------------------
@@ -47,7 +48,8 @@ PROVIDERS = [
     BroadcastProvider,
     CacheProvider,
     CsrfProvider,
-
+    ValidationProvider,
+    
     # Third Party Providers
     BillingProvider,
     SentryServiceProvider,

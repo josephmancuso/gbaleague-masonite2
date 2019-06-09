@@ -8,8 +8,7 @@ class AddFieldToDiscord(Migration):
         Run the migrations.
         """
         with self.schema.table('discord') as table:
-            table.string('channel_id')
-            table.string('token')
+            table.string('token').nullable()
 
     def down(self):
         """

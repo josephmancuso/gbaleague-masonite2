@@ -1,13 +1,13 @@
 ''' Web Routes '''
 from masonite.routes import Get, RouteGroup
-from masonite.helpers.routes import get, post
+from masonite.routes import Get as get, Post as post
 # from dashboard.routes import management_routes
 
 ROUTES = [
 
     RouteGroup([
-        get('/discover', 'WelcomeController@discover').name('discover'),
         get('/', 'WelcomeController@show').name('home'),
+        get('/discover', 'WelcomeController@discover').name('discover'),
     ]),
 
     # League Routes
@@ -92,12 +92,12 @@ ROUTES = [
 
     # Slack
     get('/integration/slack/@id', 'AppIntegrationsController@slack_send'),
-    Get().domain('*').route('/oauth/slack', 'AppIntegrationsController@slack_return'),
+    get().domain('*').route('/oauth/slack', 'AppIntegrationsController@slack_return'),
 
     # Discord
     get('/integration/discord/@id', 'AppIntegrationsController@discord_send'),
-    Get().domain('*').route('/oauth/discord', 'AppIntegrationsController@discord_return'),
-    Get().domain('*').route('/slacktest', 'WelcomeController@slack').name('create-league'),
+    get().domain('*').route('/oauth/discord', 'AppIntegrationsController@discord_return'),
+    get().domain('*').route('/slacktest', 'WelcomeController@slack').name('create-league'),
 
     # Testing
     post('/stripe/webhook', '/billing.controllers.WebhookController@handle').domain('684b1285'),
